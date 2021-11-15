@@ -2,4 +2,6 @@
 
 echo "hello";
 
+echo "commit test";
+
 ?>
