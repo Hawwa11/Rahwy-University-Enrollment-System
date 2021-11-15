@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Create new databse if it doesnt exist
-$sql = "CREATE DATABASE IF NOT EXISTS rahwyuni2";
+$sql = "CREATE DATABASE IF NOT EXISTS rahwyuni";
 if ($conn->query($sql) === TRUE) {
 
 } else {
@@ -22,7 +22,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Select the databse
-$conn = new mysqli($servername,$username,$password,"rahwyuni2");
+$conn = new mysqli($servername,$username,$password,"rahwyuni");
 
 // Create the student table if it doesnt exist
 $sql = "CREATE TABLE IF NOT EXISTS student (
@@ -90,7 +90,7 @@ $sql = "CREATE TABLE IF NOT EXISTS classes (
     dates_list VARCHAR(200) NOT NULL,
     c_time VARCHAR(60) NOT NULL, 
     UNIQUE (c_time),-- Set c_time as UNIQUE index
-    fee INT(100) NOT NULL, 
+    fee INT(100) NOT NULL
   )";
   
   if ($conn->query($sql) === TRUE) {
