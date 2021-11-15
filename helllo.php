@@ -2,7 +2,7 @@
 
 echo "hello";
 
-echo "test";
+echo "testing";
 
 
 ?>
