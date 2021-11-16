@@ -36,7 +36,7 @@ $sql = "CREATE TABLE IF NOT EXISTS student (
     phone VARCHAR(40) NOT NULL,
     passport_no VARCHAR(40) NOT NULL, 
     nationality VARCHAR(50) NOT NULL, 
-    programID VARCHAR(40) NOT NULL, 
+    programID VARCHAR(40) NOT NULL,
     start_sem VARCHAR(40) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";

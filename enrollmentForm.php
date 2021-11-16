@@ -1,8 +1,27 @@
 <?php
-
 include("db.php");
+$c_data = array();
+$query = mysqli_query($conn, "SELECT * FROM classes");
+ 
+if (mysqli_num_rows($query) > 0) {
+  
+  while($row = mysqli_fetch_assoc($query)) {
 
+    $c_data += array($row["classID"] => $row["c_name"]);
+    
+  }
+} 
 
+$query = mysqli_query($conn, "SELECT * FROM student WHERE studentID");
+ 
+if (mysqli_num_rows($query) > 0) {
+  
+  while($row = mysqli_fetch_assoc($query)) {
+
+  
+    
+  }
+} 
 ?>
 
 
@@ -13,7 +32,7 @@ include("db.php");
     <link rel="stylesheet" href="form.css">
   </head>
   <body>
-    <form class="signup-form" action="/register" method="post">
+    <form class="signup-form" action="enrollment.php" method="post">
 
       <!-- form header -->
       <div class="form-header">
@@ -65,48 +84,26 @@ include("db.php");
           </div>
         </div>
 
-   
-
-        <!-- Gender and Hobbies -->
+  
+        <!-- Select subjects -->
         <div class="horizontal-group">
         <div class="form-group middle">
+        <br>
         <label class="label-title">Select Subjects to Enroll</label>
         </div>
         </div>
 
 
-
         <div class="horizontal-group">
-          <div class="form-group left">
-            <div>
-              <label><input type="checkbox" value="Web">Music</label>
-            </div>
-            <div>
-            <label><input type="checkbox" value="iOS">Sports</label>
-            </div>
-            <div>
-              <label><input type="checkbox" value="Andriod">Travel</label>
-            </div>
-            <div>
-              <label><input type="checkbox" value="Game">Movies</label>
-            </div>
-          </div>
-
-          <div class="form-group right">
-            <div>
-              <label><input type="checkbox" value="Web">Music</label>
-            </div>
-            <div>
-              <label><input type="checkbox" value="iOS">Sports</label>
-            </div>
-            <div>
-              <label><input type="checkbox" value="Andriod">Travel</label>
-            </div>
-            <div>
-              <label><input type="checkbox" value="Game">Movies</label>
-            </div>
-          </div>
+        <div class="form-group container">
+          <?php
+          foreach($c_data as $key => $value){
+            echo "<div class><label><input type=checkbox value=" . $key . ">" . $value . "</label></div><br>";
+          }
+          ?>
         </div>
+        </div>
+  
 
 
         </div>
@@ -114,21 +111,10 @@ include("db.php");
 
       <!-- form-footer -->
       <div class="form-footer">
-        <span>* required</span>
-        <button type="submit" class="btn">Create</button>
+        <button type="submit" class="btn">Enroll</button>
       </div>
 
     </form>
-
-    <!-- Script for range input label -->
-    <script>
-      var rangeLabel = document.getElementById("range-label");
-      var experience = document.getElementById("experience");
-
-      function change() {
-      rangeLabel.innerText = experience.value + "K";
-      }
-    </script>
 
   </body>
 </html>
