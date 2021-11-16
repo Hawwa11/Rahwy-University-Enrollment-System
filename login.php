@@ -10,6 +10,7 @@ $conn = new mysqli($servername,$username,$password,"rahwyuni");
 session_start();
 if (isset($_POST['submit'])){
 	echo"blaaaa";
+	echo "blaa";
   }else{
 	  $email = mysqli_real_escape_string($conn, $_POST['email']);
 	  $pass = mysqli_real_escape_string($conn, $_POST['pass']);
