@@ -89,7 +89,6 @@ $sql = "CREATE TABLE IF NOT EXISTS classes (
     c_name VARCHAR(40) NOT NULL, 
     dates_list VARCHAR(200) NOT NULL,
     c_time VARCHAR(60) NOT NULL, 
-    UNIQUE (c_time),-- Set c_time as UNIQUE index
     fee INT(100) NOT NULL
   )";
   
@@ -99,5 +98,91 @@ $sql = "CREATE TABLE IF NOT EXISTS classes (
     echo "Error creating table: " . $conn->error;
   }
 
+  //add class records
+  $query = mysqli_query($conn, "SELECT * FROM classes");
+ 
+  $row = mysqli_fetch_array($query);
+if($row == 0){
+  //Insert data in the form table
+	$insert = mysqli_query($conn, "INSERT INTO classes (classID, c_name, dates_list, c_time, fee)
+   VALUES 
+    (
+     'ITM3201',
+     'Software Engineering',
+     '16-08-2021,18-08-2021',
+     '8:00-10:00',
+     2300
+     ),
+     (
+     'SDT1302',
+     'System Analysis',
+     '16-08-2021,18-08-2021',
+     '10:00-12:00',
+     2300
+     ),
+     (
+     'IBM2203',
+     'Mobile App Development',
+     '16-08-2021,18-08-2021',
+     '12:00-14:00',
+     2300
+     ),
+     (
+     'PGR4204',
+     'Programming Logic',
+     '17-08-2021,19-08-2021',
+     '8:00-10:00',
+     2300
+     ),
+     (
+     'MPU2105',
+     'Malaysian Studies',
+     '17-08-2021,19-08-2021',
+     '10:00-12:00',
+     500
+     ),
+     (
+     'IBM3106',
+     'Web Programming',
+     '17-08-2021,19-08-2021',
+     '12:00-14:00',
+     2300
+     ),
+     (
+     'MAT4107',
+     'Mathemetics',
+     '16-08-2021,19-08-2021',
+     '14:00-16:00',
+     2300
+     ),
+     (
+     'ICT2208',
+     'Software Testing',
+     '17-08-2021,18-08-2021',
+     '14:00-16:00',
+     2300
+     ),
+     (
+     'CAP3409',
+     'Capstone',
+     '18-08-2021,20-08-2021',
+     '16:00-18:00',
+     2300
+     ),
+     (
+     'ITM4010',
+     'Computer Architecture Fundamentals',
+     '17-08-2021,19-08-2021',
+     '16:00-18:00',
+     2300
+     )
+   ");
+	
+  //Check if insert successfull
+	if($insert){
+	} else {
+		echo 'Failed to add records due to '.mysqli_error($conn);
+	}
+}
 
 ?>
