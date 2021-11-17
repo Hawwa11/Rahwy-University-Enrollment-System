@@ -1,56 +1,53 @@
+
 <?php
-// Set the variables 
-$servername = "localhost";
-$username = "root";
-$password = "";
+	
+	// Set the variables 
+	include 'db.php';
+	session_start();
+	if (isset($_POST['submit'])){
 
-// Create connection to phpMyAdmin
-$conn = new mysqli($servername,$username,$password);
-$conn = new mysqli($servername,$username,$password,"rahwyuni");
-session_start();
-if (isset($_POST['submit'])){
-	echo"blaaaa";
-	echo "blaa";
-  }else{
-	  $email = mysqli_real_escape_string($conn, $_POST['email']);
-	  $pass = mysqli_real_escape_string($conn, $_POST['pass']);
-	  $pNum = mysqli_real_escape_string($conn, $_POST['pnum']);
-	  $fname = mysqli_real_escape_string($conn, $_POST['fname']);
-	  $lname = mysqli_real_escape_string($conn, $_POST['lname']);
-	  $passport = mysqli_real_escape_string($conn, $_POST['passport']);
-	  $programID = mysqli_real_escape_string($conn, $_POST['programID']);
-	  $country = mysqli_real_escape_string($conn, $_POST['country']);
-	  $DOB = mysqli_real_escape_string($conn, $_POST['DOB']);
+		$email = mysqli_real_escape_string($conn, $_POST['email']);
+		$pass = mysqli_real_escape_string($conn, $_POST['pass']);
+		$pNum = mysqli_real_escape_string($conn, $_POST['pnum']);
+		$fname = mysqli_real_escape_string($conn, $_POST['fname']);
+		$lname = mysqli_real_escape_string($conn, $_POST['lname']);
+		$passport = mysqli_real_escape_string($conn, $_POST['passport']);
+		$programID = mysqli_real_escape_string($conn, $_POST['ProgramID']);
+		$country = mysqli_real_escape_string($conn, $_POST['country']);
+		$DOB = mysqli_real_escape_string($conn, $_POST['DOB']);
+		$campus="I21";
+		$IDGen= $campus.substr($_POST['passport'],1);
+		$ID = mysqli_real_escape_string($conn, $IDGen);
 
-	  $uCheck = "SELECT * FROM user WHERE email = '$email'";
-	  $pCheck = "SELECT * FROM user WHERE phone = '$pNum'";
-	  $startUCheck= mysqli_query($conn, $uCheck);
-	  $startPCheck = mysqli_query($conn, $pCheck);
-	  
-	  if($_POST['pass']!=$_POST['Rpass']){
-		echo "<script>alert('Password and confirm password must be the same!')</script>";
-	  }
-	  else if(mysqli_num_rows($startUCheck)>0){
-		  echo "<script>alert('Username is already taken please try a different one')</script>";
-	  }else if(mysqli_num_rows($startPCheck)>0){
-		  echo "<script>alert('This phone num is already taken please enter a different one')</script>";
-	  }
-	  else{
-  
-	  $insert = mysqli_query($conn,"INSERT INTO user (userID, email, password, user_role, phone, DOB, passport_iKadNo, nationality, fname, lname, programID, startSem) VALUES('1','$email','$pass','0',$pNum,$DOB,$passport,$country,$fname,$lname,$programID,'AUG20')");
-  
-	  if($insert){
-		  $_SESSION['username']= $email;
-		  echo "<script>alert('Registration successful.');window.location.href='Login.php?ck=1';</script>";
-		  exit();
-		  
-	  }else{
-		  echo 'Failed to add new record'.mysqli_error($conn);
-	  }
-  }
-	  }
-  
-  
+		$uCheck = "SELECT * FROM student WHERE email = '$email'";
+		$pCheck = "SELECT * FROM student WHERE phone = '$pNum'";
+		$startUCheck= mysqli_query($conn, $uCheck);
+		$startPCheck = mysqli_query($conn, $pCheck);
+		
+		if($_POST['pass']!=$_POST['Rpass']){
+			echo "<script>alert('Password and confirm password must be the same!')</script>";
+		}
+		else if(mysqli_num_rows($startUCheck)>0){
+			echo "<script>alert('Username is already taken please try a different one')</script>";
+		}else if(mysqli_num_rows($startPCheck)>0){
+			echo "<script>alert('This phone num is already taken please enter a different one')</script>";
+		}
+		else{
+	
+		$insert = mysqli_query($conn,"INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID) VALUES('$ID','$email','$pass','$pNum','$DOB','$passport','$country','$fname','$lname','$programID')");
+	
+		if($insert){
+			$_SESSION['username']= $email;
+			echo "<script>alert('Registration successful.');window.location.href='Login.php?ck=1';</script>";
+			exit();
+			
+		}else{
+			echo 'Failed to add new record'.mysqli_error($conn);
+		}
+	}
+		
+	
+}
 
 
 ?>
@@ -155,7 +152,7 @@ a{color:inherit;text-decoration:none}
 	background:rgba(255,255,255,.1);
 }
 .login-form .group input[data-type="password"]{
-	text-security:circle;
+	
 	-webkit-text-security:circle;
 }
 .login-form .group .label{
@@ -253,19 +250,19 @@ a{color:inherit;text-decoration:none}
 				<div class="sign-up-htm">
 				<div class="group">
 						<label for="fname" class="label">First Name</label>
-						<input id="fname" type="text" class="input">
+						<input id="fname" name="fname" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="lname" class="label">Last Name</label>
-						<input id="lname" type="text" class="input">
+						<input id="lname" name="lname" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="passport" class="label">Passport Number</label>
-						<input id="passport" type="text" class="input">
+						<input id="passport" name="passport" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="programID" class="label">Program ID</label>
-						<input id="ProgramID" type="text" class="input">
+						<input id="ProgramID" name="ProgramID" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="country" class="label">Nationality</label>
@@ -518,23 +515,23 @@ a{color:inherit;text-decoration:none}
 					</div>
 					<div class="group">
 						<label for="DOB" class="label">Date of Birth</label>
-						<input id="DOB" type="text" class="input">
+						<input id="DOB" name="DOB" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="pnum" class="label">Phone Number</label>
-						<input id="pnum" type="text" class="input">
+						<input id="pnum" name="pnum" type="text" class="input">
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Password</label>
-						<input id="pass" type="password" class="input" data-type="password">
+						<input id="pass" name="pass" type="password" class="input" data-type="password">
 					</div>
 					<div class="group">
 						<label for="Rpass" class="label">Repeat Password</label>
-						<input id="Rpass" type="password" class="input" data-type="password">
+						<input id="Rpass" name="Rpass" type="password" class="input" data-type="password">
 					</div>
 					<div class="group">
 						<label for="email" class="label">Email Address</label>
-						<input id="email" type="text" class="input">
+						<input id="email" name="email" type="text" class="input">
 					</div>
 					<div class="group">
 						<input type="submit" name ="submit" class="button" value="Sign Up">
