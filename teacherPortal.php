@@ -39,10 +39,10 @@
             <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="teacherPortal.php"><i class="fa fa-fw fa-home"></i>Home</a></li>
-                <li><a href="#Profile"><i class="fa fa-fw fa-user"></i>Profile</a></li>
+                <li><a href="teacherProfile.php"><i class="fa fa-fw fa-user"></i>Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.html"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
+                <li><a href="login.php"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
             </ul>
             </div>
         </div>
@@ -53,26 +53,26 @@
     <div class="container">
            
         <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Class Name</th>
-        <th>Class Statistics</th>
-        <th>Barcode</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Class 1</td>
-        <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-        <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
-      </tr>
-      <tr>
-        <td>Class 2</td>
-        <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-        <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
-      </tr>
-    </tbody>
-  </table>
+          <thead>
+            <tr>
+              <th>Class Name</th>
+              <th>Class Statistics</th>
+              <th>Barcode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Class 1</td>
+              <td><button type="button" class="btn btn-primary">View Statistics</button></td>
+              <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
+            </tr>
+            <tr>
+              <td>Class 2</td>
+              <td><button type="button" class="btn btn-primary">View Statistics</button></td>
+              <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
+            </tr>
+          </tbody>
+        </table>
     </div>
 </body>
 </html>
