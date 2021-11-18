@@ -22,6 +22,8 @@ if (mysqli_num_rows($query) > 0) {
     
   }
 } 
+
+echo $_SESSION['username'];
 ?>
 
 
@@ -30,8 +32,10 @@ if (mysqli_num_rows($query) > 0) {
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="form.css">
+
   </head>
   <body>
+
     <form class="signup-form" action="enrollment.php" method="post">
 
       <!-- form header -->
