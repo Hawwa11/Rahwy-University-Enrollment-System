@@ -107,6 +107,43 @@ if (isset($_POST['submit2'])) {
 	$userID = mysqli_real_escape_string($conn, $_POST['userID']);
 	$password = mysqli_real_escape_string($conn, $_POST['Loginpass']);
 
+	$RoleID = substr($_POST['userID'], 0, 1);
+
+	if($RoleID=="L"){
+
+		$LoginCheckQuery = "SELECT * FROM lecturer WHERE lecturerID = '$userID' AND password_hash = '$password'";
+		$startLoginCheck = mysqli_query($conn, $LoginCheckQuery);
+	
+		if (mysqli_num_rows($startLoginCheck) > 0) {
+			$_SESSION["username"] = $_POST['userID'];
+	
+			echo '
+				<script>
+				window.location.href="teacherPortal.php?ck=1";
+				</script>
+			  ';
+		} else {
+			echo '
+				<div class="alert">
+				<span class="closebtn">&times;</span>  
+				<strong>Incorrect credentials ! </strong> The User ID or Password are incorrect.
+			  </div>
+			  <script>
+	var close = document.getElementsByClassName("closebtn");
+	var i;
+	
+	for (i = 0; i < close.length; i++) {
+	  close[i].onclick = function(){
+		var div = this.parentElement;
+		div.style.opacity = "0";
+		setTimeout(function(){ div.style.display = "none"; }, 600);
+	  }
+	}
+	</script>';
+		}
+
+	}else{
+
 	$LoginCheckQuery = "SELECT * FROM student WHERE studentID = '$userID' AND password_hash = '$password'";
 	$startLoginCheck = mysqli_query($conn, $LoginCheckQuery);
 
@@ -137,6 +174,7 @@ for (i = 0; i < close.length; i++) {
 }
 </script>';
 	}
+}
 }
 
 // if (isset($_POST["rememberme"])) {
