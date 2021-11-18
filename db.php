@@ -89,6 +89,7 @@ $sql = "CREATE TABLE IF NOT EXISTS classes (
     c_name VARCHAR(40) NOT NULL, 
     dates_list VARCHAR(200) NOT NULL,
     c_time VARCHAR(60) NOT NULL, 
+    paid INT(10) NOT NULL,
     fee INT(100) NOT NULL
   )";
   
@@ -116,8 +117,8 @@ if($row == 0){
      (
      'SDT1302',
      'System Analysis',
-     '16-08-2021,18-08-2021',
-     '10:00-12:00',
+     '17-08-2021,19-08-2021',
+     '14:00-16:00',
      2300
      ),
      (
@@ -128,54 +129,12 @@ if($row == 0){
      2300
      ),
      (
-     'PGR4204',
-     'Programming Logic',
-     '17-08-2021,19-08-2021',
-     '8:00-10:00',
-     2300
-     ),
-     (
-     'MPU2105',
-     'Malaysian Studies',
-     '17-08-2021,19-08-2021',
-     '10:00-12:00',
-     500
-     ),
-     (
-     'IBM3106',
-     'Web Programming',
-     '17-08-2021,19-08-2021',
-     '12:00-14:00',
-     2300
-     ),
-     (
-     'MAT4107',
-     'Mathemetics',
-     '16-08-2021,19-08-2021',
-     '14:00-16:00',
-     2300
-     ),
-     (
      'ICT2208',
      'Software Testing',
-     '17-08-2021,18-08-2021',
-     '14:00-16:00',
+     '17-08-2021,20-08-2021',
+     '08:00-10:00',
      2300
      ),
-     (
-     'CAP3409',
-     'Capstone',
-     '18-08-2021,20-08-2021',
-     '16:00-18:00',
-     2300
-     ),
-     (
-     'ITM4010',
-     'Computer Architecture Fundamentals',
-     '17-08-2021,19-08-2021',
-     '16:00-18:00',
-     2300
-     )
    ");
 	
   //Check if insert successfull
@@ -184,5 +143,58 @@ if($row == 0){
 		echo 'Failed to add records due to '.mysqli_error($conn);
 	}
 }
+
+  // Create the user table if it doesnt exist
+$sql = "CREATE TABLE IF NOT EXISTS ITM3201_attendance (
+  ID AUTO_INCREMENT PRIMARY KEY, -- Set ID as the primary key
+  studentID VARCHAR(40) NOT NULL, 
+  c_date VARCHAR(200) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+     // Do nothing if table created successfully
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+  // Create the user table if it doesnt exist
+  $sql = "CREATE TABLE IF NOT EXISTS SDT1302_attendance (
+    ID AUTO_INCREMENT PRIMARY KEY, -- Set ID as the primary key
+    studentID VARCHAR(40) NOT NULL, 
+    c_date VARCHAR(200) NOT NULL
+  )";
+  
+  if ($conn->query($sql) === TRUE) {
+       // Do nothing if table created successfully
+  } else {
+    echo "Error creating table: " . $conn->error;
+  }
+
+// Create the user table if it doesnt exist
+$sql = "CREATE TABLE IF NOT EXISTS IBM2203_attendance (
+  ID AUTO_INCREMENT PRIMARY KEY, -- Set ID as the primary key
+  studentID VARCHAR(40) NOT NULL, 
+  c_date VARCHAR(200) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+     // Do nothing if table created successfully
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+// Create the user table if it doesnt exist
+$sql = "CREATE TABLE IF NOT EXISTS ICT2208_attendance (
+  ID AUTO_INCREMENT PRIMARY KEY, -- Set ID as the primary key
+  studentID VARCHAR(40) NOT NULL, 
+  c_date VARCHAR(200) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+     // Do nothing if table created successfully
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
 
 ?>
