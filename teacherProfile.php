@@ -17,16 +17,40 @@
     <?php
         include("db.php");//Includes the database file that makes the connection
 
-        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '1'");//Query to get all info related to logged in user and saving required info into variables
-        while($row = mysqli_fetch_array($query)){
-            $fn = $row['fname'];
-            $ln = $row['lname'];
-            $email = $row['email'];
-            //$pw = $row['password_hash'];
-            $dob = $row['dob'];
-            $phone = $row['phone'];
-            $department = $row['department'];
+        //fixes and error where session is ignored because an error has been already started
+        if(!isset($_SESSION))//If statement to start a session if none was started
+        { 
+            session_start(); 
         }
+        //Getting username of logged in user
+        $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+        if($LecturerID == null){//Redirect user to login page if they are not signe in
+            header('Location: login.php');
+        }
+        else {
+            $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
+            while($row = mysqli_fetch_array($query)){
+                $id = $row['lecturerID'];
+                $name = $row['lname'];
+                $email = $row['email'];
+                $phone = $row['phone'];
+                $department = $row['department'];
+            }
+        }
+        
+        //To update the Teacher's phone number
+        if(isset($_POST['update'])){
+            $phone = mysqli_real_escape_string($conn, $_POST['phoneNumber']);
+    
+            $update = mysqli_query($conn, "UPDATE lecturer  SET phone='$phone' WHERE lecturerID  = '{$id}'");
+                if($update){
+                    echo '<script>alert("Record Successfully edited")</script>';               
+                } 
+                else {
+                    echo 'Failed to edit record because '.mysqli_error($conn);
+                }     
+        }
+        
     ?>
     <nav class="navbar navbar-inverse" style="background-color: #3d5a80;">
         <div class="container-fluid">
@@ -51,39 +75,40 @@
     </nav>
     
     <?php
-        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '1'");//Query to get all info related to logged in user and saving required info into variables
+        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
         if(mysqli_num_rows($query)!=0){
     ?>
-    <div class="container">
-        <table class="table table-striped">
-            <tbody>
-                <tr>                
-                <th>First Name</th>
-                <td><?php echo $fn; ?></td>
-                </tr>
-                <tr>
-                <th>Last Name</th>
-                <td><?php echo $ln; ?></td>
-                </tr>
-                <tr>
-                <th>Email</th>
-                <td><?php echo $email; ?></td>
-                </tr>
-                <tr>
-                <th>Date of Birth</th>
-                <td><?php echo $dob; ?></td>
-                </tr>
-                <tr>
-                <th>Phone Number</th>
-                <td><?php echo $phone; ?></td>
-                </tr>
-                <tr>
-                <th>Department</th>
-                <td><?php echo $department; ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <form action="" method="POST">
+        <div class="container">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>                
+                    <th>ID</th>
+                    <td><?php echo $id; ?></td>
+                    </tr>
+                    <tr>                
+                    <th>Name</th>
+                    <td><?php echo $name; ?></td>
+                    </tr>                
+                    <tr>
+                    <th>Email</th>
+                    <td><?php echo $email; ?></td>
+                    </tr>                
+                    <tr>
+                    <th>Phone Number</th>
+                    <td>
+                        <input id="phoneNumber" name="phoneNumber" placeholder="" value="<?php echo $phone; ?>" required></input>
+                        <input type="submit" name="update" value="Update">
+                    </td>
+                    </tr>
+                    <tr>
+                    <th>Department</th>
+                    <td><?php echo $department; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
     <?php
         }
     ?>
