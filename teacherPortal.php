@@ -48,7 +48,28 @@
         </div>
     </nav>
     <?php
-        echo "Welcome back Mr/Ms: "
+      include("db.php");//Includes the database file that makes the connection
+
+      //fixes and error where session is ignored because an error has been already started
+      if(!isset($_SESSION))//If statement to start a session if none was started
+      { 
+          session_start(); 
+      }
+      //Getting username of logged in user
+      $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+      if($LecturerID == null){//Redirect user to login page if they are not signe in
+        header('Location: login.php');
+      }
+      else {
+        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
+        while($row = mysqli_fetch_array($query)){
+            $name = $row['lname'];         
+        }
+    ?>
+    <div class="container">
+        <?php echo 'Welcome ' . $name; echo "</br></br>";?>
+    <?php
+      }
     ?>
     <div class="container">
            
@@ -61,16 +82,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Class 1</td>
-              <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-              <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
+            <?php
+              //Displaying classes taught by the logged in teacher
+              $query = mysqli_query($conn, "SELECT * FROM class WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
+              //$className = $row['c_name'];
+              $Row = mysqli_fetch_row($query);
+              do{
+                echo "<tr><td>{$Row[1]}</td>";
+            ?>
+
+            <form action= "edit.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
+              <td><input type="submit" value="View Statistics" /></td>
+            </form>
+            <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
+              <td><input type="submit" value="Generate Barcode" /></td>
+            </form>
             </tr>
-            <tr>
-              <td>Class 2</td>
-              <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-              <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
-            </tr>
+            
+            <?php
+                $Row = mysqli_fetch_row($query);
+              }
+              while($Row);
+            ?>
+            
           </tbody>
         </table>
     </div>
