@@ -211,8 +211,10 @@ for (i = 0; i < close.length; i++) {
 				<div class="sign-in-htm">
 					<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 						<div class="group">
-							<label for="userID" class="label">ID</label>
+							<div class="tasksInput">
+							<label for="userID" class="label">User ID</label>
 							<input id="userID" name="userID" type="text" class="input">
+							</div>
 						</div>
 						<div class="group">
 							<label for="Loginpass" class="label">Password</label>
@@ -253,7 +255,8 @@ for (i = 0; i < close.length; i++) {
 						</div>
 						<div class="group">
 							<label for="country" class="label">Nationality</label>
-							<select id="country" name="country" class="form-control">
+							<select id="country" name="country" class="country" style="width: 244px;
+							margin-left: 75px; border-radius:36px; height: 40px;">
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
