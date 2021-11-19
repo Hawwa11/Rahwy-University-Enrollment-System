@@ -36,6 +36,7 @@ a{color:inherit;text-decoration:none}
 	transform:rotateY(180deg);
 	backface-visibility:hidden;
 	transition:all .4s linear;
+	-webkit-backface-visibility: hidden;
 }
 .login-html .sign-in,
 .login-html .sign-up,
@@ -64,7 +65,9 @@ a{color:inherit;text-decoration:none}
 	min-height:345px;
 	width: 400px;
 	perspective:1000px;
+	-webkit-perspective: 0;
 	transform-style:preserve-3d;
+	-webkit-transform: translate3d(0,0,0);
 
     position: absolute;
   top: 350px;
@@ -78,7 +81,8 @@ a{color:inherit;text-decoration:none}
 .login-form .group .input,
 .login-form .group .button{
 	width:100%;
-    max-width:400px;
+    max-width:250px;
+	margin-left: 72px;
 	color:#fff;
 	display:block;
 }
@@ -92,6 +96,7 @@ a{color:inherit;text-decoration:none}
 .login-form .group input[data-type="password"]{
 	
 	-webkit-text-security:circle;
+	
 }
 .login-form .group .label{
 	color:#aaa;
@@ -104,6 +109,7 @@ a{color:inherit;text-decoration:none}
 	width:15px;
 	height:15px;
 	border-radius:2px;
+	margin-left: 112px;
 	position:relative;
 	display:inline-block;
 	background:rgba(255,255,255,.1);
@@ -182,3 +188,17 @@ a{color:inherit;text-decoration:none}
 .closebtn:hover {
   color: black;
 }
+
+select:required:invalid {
+	color: gray;
+  }
+  option[value=""][disabled] {
+	display: none;
+  }
+  option {
+	color: black;
+  }
+
+form{position:relative; direction:ltr;}
+.tasksInput{margin-right:150px;}
+.submit-and-options{position:absolute; right:0; top:0;}
