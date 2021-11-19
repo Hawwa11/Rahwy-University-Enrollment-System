@@ -1,11 +1,41 @@
 <?php 
 include ("db.php");
+include ("functions.php");
 
-  session_start();
   //Check if user not logged in
-//   if (!isset($_SESSION['username'])) 
-//     header("Location: Login.php");
-//   else {  
+ if (!isset($_SESSION['username'])) 
+   header("Location: Login.php");
+else {  
+
+  //echo $_SESSION['storeDate'];
+  
+
+
+  if(isset($_SESSION['storeDate'])){
+        
+    $studentID = $_SESSION['username'];
+    $date=$_SESSION['storeDate'];
+ 
+
+     
+    $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+     
+    if($insert){
+
+      echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
+      session_destroy();
+    }
+
+    else{
+      echo "query failed".mysqli_error($conn);
+    }
+
+    }
+   
+
+  
+
+
 ?>
 
 <head>
@@ -178,7 +208,9 @@ body, html {
         </script>
    
 </body>
-<?php 
-    
 
-?>
+<?php
+
+        }
+
+        ?>
