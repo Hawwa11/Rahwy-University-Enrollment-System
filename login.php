@@ -84,7 +84,10 @@ for (i = 0; i < close.length; i++) {
 	} else {
 
 		$insert = mysqli_query($conn, "INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES('$ID','$email','$pass','$pNum','$DOB','$passport','$country','$fname','$lname','$programID','AUG21')");
-
+		//Sending Email to student with their new student ID
+		$subject = "Your Student ID";
+		$txt = "Thank you for registering. Your student ID is " . $IDGen;
+		mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
 		if ($insert) {
 			$_SESSION["username"] = $IDGen;
 
