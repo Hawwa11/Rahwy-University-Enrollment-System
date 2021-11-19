@@ -155,7 +155,7 @@ if (isset($_POST['submit2'])) {
 
 		echo '
 			<script>
-			window.location.href="enrollmentForm.php?ck=1";
+			window.location.href="tabs.php?ck=1";
 			</script>
 		  ';
 	} else {
