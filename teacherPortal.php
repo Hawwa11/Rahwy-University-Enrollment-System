@@ -39,40 +39,74 @@
             <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="teacherPortal.php"><i class="fa fa-fw fa-home"></i>Home</a></li>
-                <li><a href="#Profile"><i class="fa fa-fw fa-user"></i>Profile</a></li>
+                <li><a href="teacherProfile.php"><i class="fa fa-fw fa-user"></i>Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.html"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
+                <li><a href="login.php"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
             </ul>
             </div>
         </div>
     </nav>
     <?php
-        echo "Welcome back Mr/Ms: "
+      include("db.php");//Includes the database file that makes the connection
+
+      //fixes and error where session is ignored because an error has been already started
+      if(!isset($_SESSION))//If statement to start a session if none was started
+      { 
+          session_start(); 
+      }
+      //Getting username of logged in user
+      $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+      if($LecturerID == null){//Redirect user to login page if they are not signe in
+        header('Location: login.php');
+      }
+      else {
+        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
+        while($row = mysqli_fetch_array($query)){
+            $name = $row['lname'];         
+        }
+    ?>
+    <div class="container">
+        <?php echo 'Welcome ' . $name; echo "</br></br>";?>
+    <?php
+      }
     ?>
     <div class="container">
            
         <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Class Name</th>
-        <th>Class Statistics</th>
-        <th>Barcode</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Class 1</td>
-        <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-        <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
-      </tr>
-      <tr>
-        <td>Class 2</td>
-        <td><button type="button" class="btn btn-primary">View Statistics</button></td>
-        <td><button type="button" class="btn btn-info">Generate Barcode</button></td>
-      </tr>
-    </tbody>
-  </table>
+          <thead>
+            <tr>
+              <th>Class Name</th>
+              <th>Class Statistics</th>
+              <th>Barcode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              //Displaying classes taught by the logged in teacher
+              $query = mysqli_query($conn, "SELECT * FROM class WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
+              //$className = $row['c_name'];
+              $Row = mysqli_fetch_row($query);
+              do{
+                echo "<tr><td>{$Row[1]}</td>";
+            ?>
+
+            <form action= "edit.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
+              <td><input type="submit" value="View Statistics" /></td>
+            </form>
+            <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
+              <td><input type="submit" value="Generate Barcode" /></td>
+            </form>
+            </tr>
+            
+            <?php
+                $Row = mysqli_fetch_row($query);
+              }
+              while($Row);
+            ?>
+            
+          </tbody>
+        </table>
     </div>
 </body>
 </html>
