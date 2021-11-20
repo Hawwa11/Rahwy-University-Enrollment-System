@@ -95,7 +95,7 @@
               <td><input type="submit" value="View Statistics" /></td>
             </form>
             <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-              <td><input type="submit" value="Generate Barcode" /></td>
+            <td><a href="index.php" class="btn btn-info" role="button">Generate barcode</a></td>
             </form>
             </tr>
             
