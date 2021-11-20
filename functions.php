@@ -19,4 +19,18 @@ echo '<center><img src="'.$urlRelativeFilePath.'" /></center>';
 
 
 
+
+function callsession(){
+
+  
+  $showDate = date("Y.m.d");
+
+  $_SESSION['storeDate'] = $showDate;
+
+
+
+}
+
+
+
 ?>

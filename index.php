@@ -2,6 +2,7 @@
         include("db.php");
         include("functions.php"); 
 
+        callsession();
         $showDate=$_SESSION['storeDate'];
         echo $showDate;
 
