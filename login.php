@@ -185,7 +185,7 @@ if (isset($_POST['submit2'])) {
 		}else{
 		echo '
 			<script>
-			window.location.href="tabs.php?ck=1";
+			window.location.href="tabs.php";
 			</script>
 		  ';
 		}
