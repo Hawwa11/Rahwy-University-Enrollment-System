@@ -87,6 +87,7 @@ for (i = 0; i < close.length; i++) {
 </script>';
 	} else {
 
+
 		$insert = mysqli_query($conn, "INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES('$ID','$email','$pass','$pNum','$DOB','$passport','$country','$fname','$lname','$programID','AUG21')");
 		//Sending Email to student with their new student ID
 		$subject = "Your Student ID";
@@ -151,23 +152,26 @@ if (isset($_POST['submit2'])) {
 
 	}else{
 
-		if (!empty($_GET)){
 
-			$date=$_GET['link'];
-
-		}
 
 	$LoginCheckQuery = "SELECT * FROM student WHERE studentID = '$userID' AND password_hash = '$password'";
 	$startLoginCheck = mysqli_query($conn, $LoginCheckQuery);
 
 	if (mysqli_num_rows($startLoginCheck) > 0) {
 		$_SESSION["username"] = $_POST['userID'];
+		if (!empty($_GET)){
 
+			$date=$_GET['link'];
+
+			header("Location: tabs.php?link=".$date."");
+
+		}else{
 		echo '
 			<script>
 			window.location.href="tabs.php?ck=1";
 			</script>
 		  ';
+		}
 	} else {
 		echo '
 			<div class="alert">

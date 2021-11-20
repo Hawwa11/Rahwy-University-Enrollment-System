@@ -86,7 +86,7 @@
     
 
     
-    $codeContents = "http://e9f9-2001-f40-904-a76d-7c06-3c0b-f436-7d7a.ngrok.io/rola/Rahwy-University-Enrollment-System/tabs.php?link=".$showDate."";
+    $codeContents = "https://cutt.ly/RahwyUni?link=".$showDate."";
     
     // we need to generate filename somehow, 
     // with md5 or with database ID used to obtains $codeContents...
