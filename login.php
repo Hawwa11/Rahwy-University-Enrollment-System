@@ -3,6 +3,10 @@
 include 'db.php';
 session_start();
 if (isset($_POST['submit'])) {
+    // no data passed by get
+
+
+
 
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$pass = mysqli_real_escape_string($conn, $_POST['pass']);
@@ -146,6 +150,12 @@ if (isset($_POST['submit2'])) {
 		}
 
 	}else{
+
+		if (!empty($_GET)){
+
+			$date=$_GET['link'];
+
+		}
 
 	$LoginCheckQuery = "SELECT * FROM student WHERE studentID = '$userID' AND password_hash = '$password'";
 	$startLoginCheck = mysqli_query($conn, $LoginCheckQuery);
