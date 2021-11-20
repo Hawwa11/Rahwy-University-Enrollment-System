@@ -13,7 +13,8 @@ $date=$_GET['link'];
  }else {  
 
     $studentID = $_SESSION['username'];
-    $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+    $showDate = date('Y.m.d',$date);
+    $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$showDate')");
      
     if($insert){
       echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
@@ -38,8 +39,8 @@ $date=$_GET['link'];
 <nav>
     <ul>
     <img src="logo2.png" height="70%" class="img">
-    <li><button class="tablink" onclick="openPage('Home', this)"id="defaultOpen2">Home</button></li> 
-    <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen">Enrollment</button></li>
+    <li><button class="tablink" onclick="openPage('Home', this)"id="defaultOpen">Home</button></li> 
+    <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen2">Enrollment</button></li>
     <li><button class="tablink" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</button></li>
     <li><button class="tablink" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</button></li>
     <input type="submit" class="lbtn" name="logout" value="Logout">
@@ -51,7 +52,7 @@ $date=$_GET['link'];
 
     <!-- Redirects to the page of the tab that is clicked  -->
     <div id="Home" class="tabcontent">
-      <!-- <?php include("home.php"); ?> -->
+       <?php include("home.php"); ?> 
     </div>
     
     <div id="Enrollment" class="tabcontent">
