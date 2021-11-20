@@ -1,4 +1,32 @@
+<?php
+        include("db.php");
+        include("functions.php"); 
 
+                if(!isset($_SESSION))
+                { 
+                    session_start(); 
+                }
+                //Getting username of logged in user
+                $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+                if($LecturerID == null){//Redirect user to login page if they are not signed in
+                    header('Location: login.php');
+                }
+                else {
+
+        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '1'");//Query to get all info related to logged in user and saving required info into variables
+        while($row = mysqli_fetch_array($query)){
+            $fn = $row['fname'];
+            $ln = $row['lname'];
+            $email = $row['email'];
+            //$pw = $row['password_hash'];
+            $dob = $row['dob'];
+            $phone = $row['phone'];
+            $department = $row['department'];
+        }
+
+    }
+
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,24 +41,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <title>Profile</title>
+    <title>Generate</title>
 </head>
 <body>
-    <?php
-        include("db.php");
-        include("functions.php"); 
 
-        $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '1'");//Query to get all info related to logged in user and saving required info into variables
-        while($row = mysqli_fetch_array($query)){
-            $fn = $row['fname'];
-            $ln = $row['lname'];
-            $email = $row['email'];
-            //$pw = $row['password_hash'];
-            $dob = $row['dob'];
-            $phone = $row['phone'];
-            $department = $row['department'];
-        }
-    ?>
     <nav class="navbar navbar-inverse" style="background-color: #3d5a80;">
         <div class="container-fluid">
             <div class="navbar-header">
