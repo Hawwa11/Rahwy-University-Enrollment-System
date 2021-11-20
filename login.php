@@ -159,6 +159,23 @@ if (isset($_POST['submit2'])) {
 
 	if (mysqli_num_rows($startLoginCheck) > 0) {
 		$_SESSION["username"] = $_POST['userID'];
+// 		if(!empty($_POST["rememberme"])) {
+// 			setcookie ("member_ID",$_POST["userID"],time()+ (86400));
+// 			setcookie ("member_Password",$_POST["Loginpass"],time()+ (86400));
+// 		}else { //delete cookie if checkbox is not checked
+// 			if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+// 				$CookieID = $_COOKIE["member_ID"];
+// 				$Cookiepassword = $_COOKIE["member_Password"];
+// 				setcookie("member_ID", $CookieID, time() - 1);
+// 				setcookie("member_Password", $Cookiepassword, time() - 1);
+// 			}
+// 	} 
+// 	echo '
+// 	<script>
+// 	window.location.href="tabs.php?ck=1";
+// 	</script>
+//   ';
+// }else {
 		if (!empty($_GET)){
 
 			$date=$_GET['link'];
@@ -168,7 +185,7 @@ if (isset($_POST['submit2'])) {
 		}else{
 		echo '
 			<script>
-			window.location.href="tabs.php?ck=1";
+			window.location.href="tabs.php";
 			</script>
 		  ';
 		}
@@ -194,18 +211,19 @@ for (i = 0; i < close.length; i++) {
 }
 }
 
-// if (isset($_POST["rememberme"])) {
-// 	setcookie("username", $_POST['userID'], time() + (86400));
-// 	setcookie("pw", $_POST['Loginpass'], time() + (86400));							
-// }else { //delete cookie if checkbox is not checked
-// 	if(isset($_COOKIE['username']) && isset($_COOKIE["pw"])) {
-// 		$_POST['userID'] = $_COOKIE["username"];
-// 		$_POST['Loginpass'] = $_COOKIE["pw"];
-// 		setcookie("username", $_POST['userID'], time() - 1);
-// 		setcookie("pw", $_POST['Loginpass'], time() - 1);
-// 	}
-// }
-// ?>
+
+if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+	$CookieID = $_COOKIE["member_ID"];
+	$Cookiepassword = $_COOKIE["member_Password"];
+	echo "<script>
+		document.getElementById('userID').value = '$CookieID';
+		document.getElementById('Loginpass').value = '$Cookiepassword';
+		document.getElementById('rememberme').checked = true;
+	</script>";
+	//it is not showing in the fields idk why
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -238,8 +256,8 @@ for (i = 0; i < close.length; i++) {
 							<input id="Loginpass" name="Loginpass" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
-							<input id="check" type="checkbox" class="check" name="rememberme" checked>
-							<label for="check"><span class="icon"></span> Keep me Signed in</label>
+							<input id="rememberme" type="checkbox" class="check" name="rememberme" checked>
+							<label for="rememberme"><span class="icon"></span> Keep me Signed in</label>
 						</div>
 						<div class="group">
 							<input type="submit" name="submit2" class="button" value="Sign In">
