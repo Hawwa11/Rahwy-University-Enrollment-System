@@ -14,14 +14,12 @@ include ("db.php");
     
       </head>
       <body>
-
-
 <nav>
      <ul>
-     <li><a class="btn" onclick="openPage('Home', this)"id="defaultOpen2">Home</a></li> 
-    <li><a class="btn" onclick="openPage('Enrollment', this)"id="defaultOpen">Enrollment</a></li>
-    <li><a  class="btn" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</a></li>
-    <li><a class="btn" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</a></li>
+     <li><button class="tablink" onclick="openPage('Home', this)"id="defaultOpen2">Home</button></li> 
+    <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen">Enrollment</button></li>
+    <li><button class="tablink" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</button></li>
+    <li><button class="tablink" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</button></li>
      </ul>
 </nav>
 
@@ -57,7 +55,7 @@ include ("db.php");
             tabcontent[i].style.display = "none";
           }
           // Get tab links
-          tablinks = document.getElementsByClassName("btn");
+          tablinks = document.getElementsByClassName("tablink");
           for (i = 0; i < tablinks.length; i++) {
             tablinks[i].style.backgroundColor = "";
           }
