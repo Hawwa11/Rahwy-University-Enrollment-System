@@ -7,7 +7,8 @@
 /* Register Form */
 /*---------------------------------------*/
 body {
-  background: linear-gradient(to right, #00997a 0%, #008066 50%, #00997a 99%);
+  background: rgba(40, 57, 101, 0.9);
+  backface-visibility: hidden;
   font-family: "open-sans-bold", AvenirNext-Medium, sans-serif;
 }
 
@@ -32,8 +33,9 @@ body {
   font-size: 150%;
   text-transform: uppercase;
   text-align: center;
-  color: #666;
+  color: rgba(59, 76, 117, 0.9);
   padding: 20px 0;
+  font-weight: 700;
   border-bottom: 1px solid #cccccc;
 }
 
@@ -42,7 +44,7 @@ body {
 /*---------------------------------------*/
 .form-body {
   padding: 10px 40px;
-  color: #008066;
+  color: rgba(40, 57, 101, 0.9);
 }
 
 .form-group {
@@ -50,7 +52,7 @@ body {
 }
 
 .form-body .label-title {
-  color: #1bba93;
+  color: rgba(40, 57, 101, 0.9);
   text-transform: uppercase;
   font-size: 100%;
   font-weight: bold;
@@ -122,7 +124,7 @@ body {
 .btn {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #1bba93;
+  background-color: rgba(59, 76, 117, 0.9);
   font-size: 17px;
   border: none;
   border-radius: 5px;
@@ -131,6 +133,6 @@ body {
 }
 
 .btn:hover {
-  background-color: #169c7b;
+  background-color: rgba(40, 57, 101, 0.9);
   color: white;
 }
