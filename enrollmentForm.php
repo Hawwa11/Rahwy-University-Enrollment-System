@@ -1,6 +1,5 @@
 <?php
 include("db.php");
-session_start();
 
 $c_data = array();
 $query = mysqli_query($conn, "SELECT * FROM class");

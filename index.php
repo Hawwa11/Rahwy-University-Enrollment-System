@@ -2,6 +2,9 @@
         include("db.php");
         include("functions.php"); 
 
+        $showDate=$_SESSION['storeDate'];
+        echo $showDate;
+
                 if(!isset($_SESSION))
                 { 
                     session_start(); 
@@ -83,7 +86,7 @@
     
 
     
-    $codeContents = "https://2c2a-2001-f40-904-a76d-dd1d-e3-9ea5-1e86.ngrok.io/rola/Rahwy-University-Enrollment-System/tabs.php";
+    $codeContents = "https://cutt.ly/RahwyUni?link=".$showDate."";
     
     // we need to generate filename somehow, 
     // with md5 or with database ID used to obtains $codeContents...
@@ -91,25 +94,37 @@
     
     $pngAbsoluteFilePath = $tempDir.$fileName;
     $urlRelativeFilePath =$tempDir.$fileName;
+
+    echo "changes reflected";
     
     // generating
     if (!file_exists($pngAbsoluteFilePath)) {
         QRcode::png($codeContents, $pngAbsoluteFilePath);
         echo 'File generated!';
+        echo '<center>Server PNG File: '.$pngAbsoluteFilePath;
+        echo '</center>';
       
     } else {
+
+        echo '<center>Server PNG File: '.$pngAbsoluteFilePath;
+        echo '</center>';
+     
       
     }
     
-    echo '<center>Server PNG File: '.$pngAbsoluteFilePath;
-    echo '</center>';
  
 
-
+    if($_SESSION['barcode']){
 
 
     displayQrImage();
 
+    }
+     
+    else{
+
+        echo "failed to capture session";
+    }
 
      echo "</tr>";
      ?>
