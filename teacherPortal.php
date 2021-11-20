@@ -14,6 +14,7 @@
     <title>Teacher Portal</title>
 
     <style>
+      
     /* Styles for the navbar */
     
     /* Styles for the bootstrap table */
@@ -49,7 +50,9 @@
     </nav>
     <?php
       include("db.php");//Includes the database file that makes the connection
-
+      include ("functions.php");
+  
+      $barcodestatus=0;
       //fixes and error where session is ignored because an error has been already started
       if(!isset($_SESSION))//If statement to start a session if none was started
       { 
@@ -69,7 +72,25 @@
     <div class="container">
         <?php echo 'Welcome ' . $name; echo "</br></br>";?>
     <?php
-      }
+      
+    if(isset($_POST["barcodeclicked"])){
+
+      $barcodestatus=1;
+      $_SESSION['barcode']=$barcodestatus;
+        
+        if(isset($_SESSION['barcode'])){
+        
+            header("Location:index.php");
+        }
+        
+        else{
+            header("Location:teacherPortal.php");
+        }
+        
+        }
+    
+    
+    }
     ?>
     <div class="container">
            
@@ -95,8 +116,12 @@
               <td><input type="submit" value="View Statistics" /></td>
             </form>
             <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-            <td><a href="index.php" class="btn btn-info" role="button">Generate barcode</a></td>
+            <!-- <td><a href="index.php" class="btn btn-info" role="button">Generate barcode</a></td> -->
             </form>
+
+             <form action="" method="POST">
+            <td><td><input type="submit" name="barcodeclicked" value="Generate barcode" /></td><</td>
+              </form>
             </tr>
             
             <?php
