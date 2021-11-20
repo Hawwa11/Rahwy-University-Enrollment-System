@@ -1,11 +1,32 @@
 <?php 
 include ("db.php");
+include ("functions.php");
 
-  session_start();
+if (!empty($_GET)) {
+
+$date=$_GET['link'];
+
+
   //Check if user not logged in
-//   if (!isset($_SESSION['username'])) 
-//     header("Location: Login.php");
-//   else {  
+ if (!isset($_SESSION['username'])) {
+   header("Location: Login.php?link=".$date."");
+ }else {  
+
+    $studentID = $_SESSION['username'];
+    $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+     
+    if($insert){
+      echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
+    }
+
+    else{
+      echo "query failed".mysqli_error($conn);
+    }
+
+    }
+}
+
+
 ?>
 <html>
       <head>
@@ -15,19 +36,22 @@ include ("db.php");
       </head>
       <body>
 <nav>
-     <ul>
-     <li><button class="tablink" onclick="openPage('Home', this)"id="defaultOpen2">Home</button></li> 
+    <ul>
+    <img src="logo2.png" height="70%" class="img">
+    <li><button class="tablink" onclick="openPage('Home', this)"id="defaultOpen2">Home</button></li> 
     <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen">Enrollment</button></li>
     <li><button class="tablink" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</button></li>
     <li><button class="tablink" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</button></li>
-     </ul>
+    <input type="submit" class="lbtn" name="logout" value="Logout">
+    </ul>
+    
 </nav>
 
     
 
     <!-- Redirects to the page of the tab that is clicked  -->
     <div id="Home" class="tabcontent">
-      <!-- <?php include("enrollmentForm.php"); ?> -->
+      <!-- <?php include("home.php"); ?> -->
     </div>
     
     <div id="Enrollment" class="tabcontent">
@@ -36,7 +60,7 @@ include ("db.php");
     </div>
     
     <div id="Payment" class="tabcontent">
-      <?php include("changePassword.php"); ?>
+      <?php include("payment.php"); ?>
     </div> 
 
     <div id="Timetable" class="tabcontent">
@@ -57,11 +81,11 @@ include ("db.php");
           // Get tab links
           tablinks = document.getElementsByClassName("tablink");
           for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].style.backgroundColor = "";
+            tablinks[i].style.color = "";
           }
           //Get the tab page and style
           document.getElementById(pageName).style.display = "block";
-          elmnt.style.backgroundColor = color;
+          elmnt.style.color = color;
         }
         
         // Get the element with id="defaultOpen" and click on it
@@ -76,17 +100,7 @@ include ("db.php");
             ?>document.getElementById("defaultOpen2").click();<?php
           }
         ?>
-// $(document).ready(function(){
-// 	   $(window).bind('scroll', function() {
-// 	   var navHeight = $( window ).height() - 70;
-// 			 if ($(window).scrollTop() > navHeight) {
-// 				 $('nav').addClass('fixed');
-// 			 }
-// 			 else {
-// 				 $('nav').removeClass('fixed');
-// 			 }
-// 		});
-// 	});
+
     </script>
 
 </html>

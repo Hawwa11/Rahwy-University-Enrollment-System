@@ -1,67 +1,82 @@
-/*
-Tutorial Name: Scroll To Top Then Fixed Navigation Effect With JQuery and CSS
-https://stanhub.com/scroll-to-top-then-fixed-navigation-effect-with-jquery-and-css-free-download/
-Description: Create a sticky navigation bar that remains fixed to the top after scroll
-Author: Stan Kostadinov
-Author URI: https://stanhub.com
-Version: 1.0.0 - 11.01.2014
-*/
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
 a {
   text-decoration: none;
-}
-
-/* This class is added on scroll */
-.fixed {
-  position: fixed;
-  top: 0;
-  height: 70px;
-  z-index: 1;
 }
 
 body {
   color: #fff;
   font-family: "open-sans-bold", AvenirNext-Medium, sans-serif;
-  font-size: 18px;
-  text-align: center;
   height: 100%;
-  margin: 0;
+}
+
+.logo {
+  background-color: #f2f2f2;
+  width: 100%;
 }
 
 /* Navigation Settings */
 nav {
-  position: absolute;
-  top: 0;
+  text-align: center;
+  position: fixed;
   width: 100%;
-  height: 10%;
+  top: 0;
+  left: 0;
+  height: 14%;
   background: #fff;
 }
 
 nav li {
   display: inline-block;
-  padding: 4% 2%;
+  padding: 3% 3%;
+}
+
+.img {
+  top: 0;
+  image-rendering: optimizeQuality;
+  float: left;
 }
 
 .tablink {
-  color: #757575;
+  color: gray;
   text-transform: uppercase;
   background-color: transparent;
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
+  font-weight: 600;
   overflow: hidden;
   outline: none;
-  font-size: 90%;
+  font-size: 100%;
+}
+
+.tablink:hover {
+  color: black;
+}
+
+.tablink:focus {
+  color: rgba(59, 76, 117, 0.9);
 }
 
 .tabcontent {
   display: none;
   padding: 100px 20px;
+}
+
+.lbtn {
+  margin-top: 20;
+  margin-right: 20;
+  float: right;
+  padding: 10px 20px;
+  background-color: rgba(59, 76, 117, 0.9);
+  font-size: 17px;
+  border: none;
+  border-radius: 5px;
+  color: #bcf5e7;
+  cursor: pointer;
+}
+
+.lbtn:hover {
+  background-color: rgba(40, 57, 101, 0.9);
+  color: white;
 }
 
 @media only screen and (max-width: 100%) {

@@ -37,7 +37,7 @@ if (mysqli_num_rows($query) > 0) {
 // $row = mysqli_fetch_array($query);
 // if($row == 0){
   if(isset($_POST['submit'])){
-    echo "hallooooooooooooo";
+  
   $_SESSION['studentID'] = $sID;
   $_SESSION['student_name'] = $sName;
   $_SESSION['subject_list'] =  $_POST['subs'];
