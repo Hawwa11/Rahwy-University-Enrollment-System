@@ -29,7 +29,7 @@ body {
 }
 
 .form-header h1 {
-  font-size: 70px;
+  font-size: 150%;
   text-transform: uppercase;
   text-align: center;
   color: #666;
@@ -52,7 +52,7 @@ body {
 .form-body .label-title {
   color: #1bba93;
   text-transform: uppercase;
-  font-size: 110%;
+  font-size: 100%;
   font-weight: bold;
 }
 
