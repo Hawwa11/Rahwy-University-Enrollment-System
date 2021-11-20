@@ -1,22 +1,26 @@
 <?php 
 include ("db.php");
 include ("functions.php");
-
+$date=$_GET['link'];
   //Check if user not logged in
  if (!isset($_SESSION['username'])) 
-   header("Location: Login.php");
+   header("Location: Login.php?link=".$date."");
 else {  
 
-  //echo $_SESSION['storeDate'];
-  
+ 
+  $date=$_GET['link'];
 
 
-  if(isset($_SESSION['storeDate'])){
+
+  if (!empty($_GET)) {
+    // no data passed by get
+
         
     $studentID = $_SESSION['username'];
-    $date=$_SESSION['storeDate'];
+   
+   
  
-
+    echo $date;
      
     $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
      
@@ -29,6 +33,9 @@ else {
     else{
       echo "query failed".mysqli_error($conn);
     }
+   
+
+       session_destroy();
 
     }
    
