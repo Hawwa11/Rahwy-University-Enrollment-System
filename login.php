@@ -7,10 +7,9 @@ include 'functions.php';
 //get variables from the url
 if (!empty($_GET)){
      
-	echo "I dont have depression";
 	$date=$_GET['link'];
 	$classID=$_GET['class'];
-	$dataLink="?link=".$date."&class=".$classID.""
+	$dataLink="?link=".$date."&class=".$classID."";
 
    
 }else{
@@ -115,7 +114,7 @@ for (i = 0; i < close.length; i++) {
 			echo '
 			
 			<script>
-			window.location.href="enrollmentForm.php?ck=1";
+			window.location.href="tabs.php";
 			</script>
 			
 		  ';

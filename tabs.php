@@ -1,7 +1,7 @@
 <?php 
 include ("db.php");
 include ("functions.php");
-
+session_start();
 if (!empty($_GET)) {
 
 $date=$_GET['link'];
@@ -67,7 +67,7 @@ $classID=$_GET['class'];
     </div> 
 
     <div id="Timetable" class="tabcontent">
-      <?php include("changePassword.php"); ?>
+      <?php //include("changePassword.php"); ?>
     </div> 
 
 
