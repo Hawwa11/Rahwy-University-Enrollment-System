@@ -130,6 +130,18 @@ if (isset($_POST['submit2'])) {
 	$userID = mysqli_real_escape_string($conn, $_POST['userID']);
 	$password = mysqli_real_escape_string($conn, $_POST['Loginpass']);
 
+	if(isset($_POST["rememberme"])) {
+		setcookie ("member_ID", $userID, time()+ (86400));
+		setcookie ("member_Password", $password, time()+ (86400));
+	}else { //delete cookie if checkbox is not checked
+		if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+			$CookieID = $_COOKIE["member_ID"];
+			$Cookiepassword = $_COOKIE["member_Password"];
+			setcookie("member_ID", $CookieID, time() - 1);
+			setcookie("member_Password", $Cookiepassword, time() - 1);
+		}
+	} 
+
 	$RoleID = substr($_POST['userID'], 0, 1);
 
 	if($RoleID=="L"){
@@ -285,7 +297,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 							<input id="Loginpass" name="Loginpass" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
-							<input id="rememberme" type="checkbox" class="check" name="rememberme" checked>
+							<input id="rememberme" type="checkbox" class="check" name="rememberme" value="1">
 							<label for="rememberme"><span class="icon"></span> Keep me Signed in</label>
 						</div>
 						<div class="group">
@@ -296,8 +308,20 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 						<div class="foot-lnk">
 							<a href="#forgot">Forgot Password?</a>
 						</div>
-						</from>
+					</form>
 				</div>
+
+				<?php
+					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+						$CookieID = $_COOKIE["member_ID"];
+						$Cookiepassword = $_COOKIE["member_Password"];
+						echo "<script>
+							document.getElementById('userID').value = '$CookieID';
+							document.getElementById('Loginpass').value = '$Cookiepassword';
+							document.getElementById('rememberme').checked = true;
+						</script>";
+					}
+				?>
 
 				<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 					<div class="sign-up-htm">
