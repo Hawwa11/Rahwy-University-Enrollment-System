@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="jquery.js"></script>
+    
 
     <title>Teacher Portal</title>
 
@@ -25,6 +27,7 @@
             background-color: #98c1d9;
         }
     </style>
+    
 </head>
 <body>
     <nav class="navbar navbar-inverse" style="background-color: #3d5a80;">
@@ -88,12 +91,51 @@
         }
         
         }
-    
-    
     }
     ?>
-    <div class="container">
-           
+
+    <form action="testing.php" method="POST">
+      <div class="container">
+        <table class="table table-striped">
+          <tbody>
+            <tr>                
+              <th colspan="2" class="text-center"><h3>Your Classes</h3></th>
+            </tr>
+            <tr>                
+              <th>Class ID:</th>
+              <td>
+              <select name ="classID" id="classID">
+                <option value="">Select Class ID</option>
+                <?php echo getClassesID($LecturerID); ?>
+              </select>
+              </td>
+            </tr>
+            <tr>                
+              <th>Class Date:</th>
+              <td>
+              <select id="classDate" name="classDate">
+                <option value="">Select Class Date</option>
+              </select>
+              </td>
+            </tr>
+            <tr>                
+              <th>Class Statistics:</th>
+              <td>
+              <input type="button" name="btn1" value="View Statistics" /><!--Doesn't function yet-->
+            </tr>
+            <tr>                
+              <th>Barcode</th>
+              <td>
+              <input type="button" name="btn2" value="Generate barcode" /><!--Doesn't function yet-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+
+    <div class="container">         
         <table class="table table-hover">
           <thead>
             <tr>
@@ -135,3 +177,32 @@
     </div>
 </body>
 </html>
+
+<?php
+  function getClassesID($LecturerID){//Function to get the classes that are taught by the logged in Lecturer
+    include("db.php");//Includes the database file that makes the connection
+    $classID = mysqli_query($conn, "SELECT classID  FROM class WHERE lecturerID = '{$LecturerID}'");
+    $output='';
+    while ($classIDrow = mysqli_fetch_array($classID)){
+      $output .= '<option value="'.$classIDrow['classID'].'">'.$classIDrow['classID'].'</option>';//Displaying the query result in the dropdown list
+    }
+    return $output;
+  }
+?>
+<script>//JQuery to fetch calss time from database
+  $(document).ready(function(){
+    $('#classID').change(function(){
+      var class_id = $(this).val();
+      $.ajax({
+        url:"fetch_date.php",
+        method:"POST",
+        data:{ClassId:class_id},
+        dataType:"text",
+        success:function(data){
+          $('#classDate').html(data);
+        }
+      });
+    });
+  });
+</script>
+
