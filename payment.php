@@ -204,7 +204,7 @@
 
                     <tr>
                         <td colspan="4">
-                        <div style="padding: 10px 40px; font-size: 20px; font-weight: bold;">
+                        <div class="form" style="padding: 10px 40px;  color: rgba(59, 76, 117, 0.9);">
                                 <center><label class="label-title">Selected Subjects</label></center>
                             </div>
                     

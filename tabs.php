@@ -45,7 +45,7 @@ $classID=$_GET['class'];
     <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen2">Enrollment</button></li>
     <li><button class="tablink" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</button></li>
     <li><button class="tablink" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</button></li>
-    <input type="submit" class="lbtn" name="logout" value="Logout">
+    <input type="submit" class="lbtn" name="logout" value="Logout" onclick="window.location='logout.php'">
     </ul>
     
 </nav>
