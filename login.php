@@ -3,15 +3,31 @@
 include 'db.php';
 include 'functions.php';
 
-if (!empty($_GET)){
 
+
+if (!empty($_GET)){
+     
+	echo "I dont have depression";
 	$date=$_GET['link'];
 	$classID=$_GET['class'];
     $url="tabs.php?link=".$date."&class=".$classID."";
+	$dataLink="?link=".$date."&class=".$classID."";
+
+	echo $url;
+
+
+
+
+
+
+
+
+	
    
 }else{
-       
-	   $url="tabs.php";
+
+	echo "I have depression";
+	$dataLink="";
   
 }
 
@@ -190,9 +206,26 @@ if (isset($_POST['submit2'])) {
 // }else {
 
     
+    if (!empty($_GET)){
+     
 
+		$date=$_GET['link'];
+		$classID=$_GET['class'];
+	
 
-header("Location:".$url);
+		header("Location: tabs.php?link=".$date."&class=".$classID."");
+	
+		
+	   
+	}else{
+	
+		header("Location: tabs.php");
+	  
+	}
+	
+	
+
+	
 		
 
 
@@ -253,7 +286,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 
 			<div class="login-form">
 				<div class="sign-in-htm">
-					<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+					<form action="<?php echo $_SERVER['PHP_SELF'].$dataLink; ?>" method="post">
 						<div class="group">
 							<div class="tasksInput">
 							<label for="userID" class="label">User ID</label>

@@ -14,11 +14,9 @@ $classID=$_GET['class'];
  }else {  
 
     $studentID = $_SESSION['username'];
-    $time = strtotime($date);
-    $showDate = date('Y.m.d',$time);
 
     $tablename = $classID . "_attendance";
-    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$showDate')");
+    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
      
     if($insert){
       echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";

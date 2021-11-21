@@ -93,9 +93,7 @@
       
     if(isset($_POST["btn2"])){
       $classID = $_POST["classID"];
-      $date = $_POST["classDate"];
-      $time = strtotime($date);
-      $showDate = date('Y.m.d',$time);
+      $showDate = $_POST['classDate'];
       echo $classID."<br> " . $showDate;
 
       $barcodestatus=1;
