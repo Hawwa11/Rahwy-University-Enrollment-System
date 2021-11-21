@@ -38,7 +38,7 @@
 
             echo '
 	<script>
-	window.location.href="changePassword.php";
+	window.location.href="ForgetPassword.php";
 	</script>
   ';;
         }
