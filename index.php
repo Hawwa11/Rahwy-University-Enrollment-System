@@ -87,7 +87,7 @@
     
 
     
-    $codeContents = "https://cutt.ly/RahwyUni?link=".$showDate."";
+    $codeContents = "https://cutt.ly/RahwyUni?link=".$showDate."&class=".$classID."";
     
     // we need to generate filename somehow, 
     // with md5 or with database ID used to obtains $codeContents...

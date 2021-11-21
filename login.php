@@ -1,12 +1,24 @@
 <?php
 // Set the variables 
 include 'db.php';
-session_start();
+include 'functions.php';
+
+if (!empty($_GET)){
+
+	$date=$_GET['link'];
+	$classID=$_GET['class'];
+    $url="tabs.php?link=".$date."&class=".$classID."";
+   
+}else{
+       
+	   $url="tabs.php";
+  
+}
+
+
+
 if (isset($_POST['submit'])) {
     // no data passed by get
-
-
-
 
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$pass = mysqli_real_escape_string($conn, $_POST['pass']);
@@ -176,19 +188,16 @@ if (isset($_POST['submit2'])) {
 // 	</script>
 //   ';
 // }else {
-		if (!empty($_GET)){
 
-			$date=$_GET['link'];
+    
 
-			header("Location: tabs.php?link=".$date."");
 
-		}else{
-		echo '
-			<script>
-			window.location.href="tabs.php";
-			</script>
-		  ';
-		}
+header("Location:".$url);
+		
+
+
+
+
 	} else {
 		echo '
 			<div class="alert">
@@ -265,7 +274,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 
 						<div class="hr"></div>
 						<div class="foot-lnk">
-							<a href="verify.php">Forgot Password?</a>
+							<a href="#forgot">Forgot Password?</a>
 						</div>
 						</from>
 				</div>
