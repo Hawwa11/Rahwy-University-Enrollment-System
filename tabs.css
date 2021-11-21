@@ -1,0 +1,90 @@
+a {
+  text-decoration: none;
+}
+
+body {
+  color: #fff;
+  font-family: "open-sans-bold", AvenirNext-Medium, sans-serif;
+  height: 100%;
+}
+
+.logo {
+  background-color: #f2f2f2;
+  width: 100%;
+}
+
+/* Navigation Settings */
+nav {
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 14%;
+  background: #fff;
+}
+
+nav li {
+  display: inline-block;
+  padding: 3% 3%;
+}
+
+.img {
+  top: 0;
+  image-rendering: optimizeQuality;
+  float: left;
+}
+
+.tablink {
+  color: gray;
+  text-transform: uppercase;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  overflow: hidden;
+  outline: none;
+  font-size: 100%;
+}
+
+.tablink:hover {
+  color: black;
+}
+
+.tablink:focus {
+  color: rgba(59, 76, 117, 0.9);
+}
+
+.tabcontent {
+  display: none;
+  padding: 100px 20px;
+}
+
+.lbtn {
+  margin-top: 20;
+  margin-right: 20;
+  float: right;
+  padding: 10px 20px;
+  background-color: rgba(59, 76, 117, 0.9);
+  font-size: 17px;
+  border: none;
+  border-radius: 5px;
+  color: #bcf5e7;
+  cursor: pointer;
+}
+
+.lbtn:hover {
+  background-color: rgba(40, 57, 101, 0.9);
+  color: white;
+}
+
+@media only screen and (max-width: 100%) {
+  nav li {
+    padding: 24px 4px;
+  }
+
+  nav li a {
+    font-size: 14px;
+  }
+}

@@ -7,12 +7,14 @@
 /* Register Form */
 /*---------------------------------------*/
 body {
-  background: linear-gradient(to right, #00997a 0%, #008066 50%, #00997a 99%);
+  background: rgba(40, 57, 101, 0.9);
+  backface-visibility: hidden;
+  font-family: "open-sans-bold", AvenirNext-Medium, sans-serif;
 }
 
 .signup-form {
-  font-family: "Roboto", sans-serif;
   width: 650px;
+  font-family: "open-sans-bold", AvenirNext-Medium, sans-serif;
   margin: 30px auto;
   background: linear-gradient(to right, #ffffff 0%, #fafafa 50%, #ffffff 99%);
   border-radius: 10px;
@@ -28,10 +30,12 @@ body {
 }
 
 .form-header h1 {
-  font-size: 30px;
+  font-size: 150%;
+  text-transform: uppercase;
   text-align: center;
-  color: #666;
+  color: rgba(59, 76, 117, 0.9);
   padding: 20px 0;
+  font-weight: 700;
   border-bottom: 1px solid #cccccc;
 }
 
@@ -40,7 +44,7 @@ body {
 /*---------------------------------------*/
 .form-body {
   padding: 10px 40px;
-  color: #008066;
+  color: rgba(40, 57, 101, 0.9);
 }
 
 .form-group {
@@ -48,8 +52,9 @@ body {
 }
 
 .form-body .label-title {
-  color: #1bba93;
-  font-size: 18px;
+  color: rgba(40, 57, 101, 0.9);
+  text-transform: uppercase;
+  font-size: 100%;
   font-weight: bold;
 }
 
@@ -116,10 +121,20 @@ body {
   clear: both;
 }
 
+.signup-form .form-footer2 {
+  background-color: #eff0f1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px 40px;
+  text-align: right;
+  border-top: 1px solid #cccccc;
+  clear: both;
+}
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #1bba93;
+  background-color: rgba(59, 76, 117, 0.9);
   font-size: 17px;
   border: none;
   border-radius: 5px;
@@ -128,6 +143,6 @@ body {
 }
 
 .btn:hover {
-  background-color: #169c7b;
+  background-color: rgba(40, 57, 101, 0.9);
   color: white;
 }
