@@ -4,29 +4,17 @@ include 'db.php';
 include 'functions.php';
 
 
-
+//get variables from the url
 if (!empty($_GET)){
      
 	echo "I dont have depression";
 	$date=$_GET['link'];
 	$classID=$_GET['class'];
-    $url="tabs.php?link=".$date."&class=".$classID."";
-	$dataLink="?link=".$date."&class=".$classID."";
+	$dataLink="?link=".$date."&class=".$classID.""
 
-	echo $url;
-
-
-
-
-
-
-
-
-	
    
 }else{
 
-	echo "I have depression";
 	$dataLink="";
   
 }
