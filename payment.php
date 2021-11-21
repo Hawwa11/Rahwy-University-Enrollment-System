@@ -1,6 +1,4 @@
 <?php
-
-    session_start();
     
     if (isset($_POST['submit'])) {
         $cardName = $_POST['cardName'];
@@ -67,19 +65,20 @@
 
     <body>
         <div>
-            <form class="signup-form form" action="payment.php" method="POST">
+            <form class="signup-form" action="payment.php" method="POST">
                 <div class="form-header">
                     <h1>Payment Using Debit / Credit Card</h1>
                     <?php
-                    echo date("m/y");
+                    echo date("d/m/y");
                     ?>
                 </div>
-
+                <div class="form-body">
+    
                 <table border="0" width=100%>
                     <tr>
-                        <td colspan="2">
-                            <div style="padding: 10px 40px; font-size: 32px; font-weight: bold;">
-                                <label class="label-title">Card Details</label>
+                        <td colspan="4">
+                            <div style="padding: 10px 40px; font-size: 20px; font-weight: bold;">
+                                <center><label class="label-title">Card Details</label></center>
                             </div>
                             <hr />
                         </td>
@@ -87,7 +86,7 @@
                         
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div>
                                 <label class="label-title">Name on Card</label><br />
                             </div>
                         </td>
@@ -106,12 +105,12 @@
 
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div >
                                 <label class="label-title">Card Number</label><br />
                             </div>
                         </td>
                         <td>
-                            <div style="padding: 10px 40px;">
+                            <div style="padding: 10px 40px;  color: rgba(59, 76, 117, 0.9);">
                             <input type="text" placeholder="0000 0000 0000 0000" class="creditcard" name="creditcard" id="creditcard" value="<?php echo isset($_POST['creditcard']) ? $_POST['creditcard'] : '' ?>" required />
                                 <label class="fa fa-credit-card"></label>
                                 <?php
@@ -134,7 +133,7 @@
                             </div>
                         </td>
                         <td>
-                            <div style="padding: 10px 40px;">
+                            <div style="padding: 10px 40px;  color: rgba(59, 76, 117, 0.9);">
                                 <i class="fab fa-cc-visa"></i>&nbsp;&nbsp;
                                 <i class="fab fa-cc-mastercard"></i>&nbsp;&nbsp;
                                 <i class="fab fa-cc-amex"></i>
@@ -144,7 +143,7 @@
 
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div>
                                 <label class="label-title">Expiry Date</label>
                             </div>
                         </td>
@@ -163,7 +162,7 @@
 
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div>
                                 <label class="label-title">CVV</label>
                             </div>
                         </td>
@@ -176,7 +175,7 @@
 
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div >
                                 <label class="label-title">Billing address</label>
                             </div>
                         </td>
@@ -189,7 +188,7 @@
 
                     <tr>
                         <td>
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div >
                                 <label class="label-title">Postal Code</label>
                             </div>
                         </td>
@@ -204,17 +203,18 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2">
-                            <div style="padding: 20px 40px; font-size: 32px; font-weight: bold;">
-                                <label class="label-title">Order Information</label>
+                        <td colspan="4">
+                        <div style="padding: 10px 40px; font-size: 20px; font-weight: bold;">
+                                <center><label class="label-title">Selected Subjects</label></center>
                             </div>
+                    
                             <hr />
                         </td>
                     </tr> 
 
                     <tr>
                         <td colspan="2">
-                            <div style="padding: 20px 40px; font-weight: bold;">
+                            <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
                                 (Subject) (Fee)
                             </div>
                         </td>
@@ -222,7 +222,7 @@
 
                     <tr>
                         <td colspan="2">
-                            <div style="padding: 20px 40px; font-weight: bold; float: right;">
+                            <div style="padding: 20px 40px; font-weight: bold; float: right;  color: rgba(59, 76, 117, 0.9);">
                                 Total Payment $
                             </div>
                         </td>
@@ -256,6 +256,7 @@
                     ?>
 
                     <input type="hidden" name="cc_type" id="cc_type" />
+                    </div>
                     <div class="form-footer">
                         <button name="submit" class="btn" onclick="ccCheck()">Pay</button>
                     </div>
