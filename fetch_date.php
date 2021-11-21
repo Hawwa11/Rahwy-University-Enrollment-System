@@ -4,9 +4,9 @@
     $output='';
     while ($classDaterow = mysqli_fetch_array($classDate)){
         //$output .= '<option value="'.$classDaterow['dates_list'].'">'.$classDaterow['dates_list'].'</option>';
-        $dates = explode(',', $classDaterow[0], 2);//Separating content of this array to read the 2 dates stored
+        $dates = explode(',', $classDaterow[0], 10);//Separating content of this array to read the 2 dates stored
         foreach($dates as $item){
-            echo "<option value='strtolower($item)'>$item</option>";//displaying each content of the new array in the dropdown list
+            echo "<option value='$item'>$item</option>";//displaying each content of the new array in the dropdown list
         }
       }
       echo $output;

@@ -1,12 +1,27 @@
 <?php
 // Set the variables 
 include 'db.php';
-session_start();
+include 'functions.php';
+
+
+//get variables from the url
+if (!empty($_GET)){
+     
+	$date=$_GET['link'];
+	$classID=$_GET['class'];
+	$dataLink="?link=".$date."&class=".$classID."";
+
+   
+}else{
+
+	$dataLink="";
+  
+}
+
+
+
 if (isset($_POST['submit'])) {
     // no data passed by get
-
-
-
 
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
 	$pass = mysqli_real_escape_string($conn, $_POST['pass']);
@@ -99,7 +114,7 @@ for (i = 0; i < close.length; i++) {
 			echo '
 			
 			<script>
-			window.location.href="enrollmentForm.php?ck=1";
+			window.location.href="tabs.php";
 			</script>
 			
 		  ';
@@ -176,19 +191,33 @@ if (isset($_POST['submit2'])) {
 // 	</script>
 //   ';
 // }else {
-		if (!empty($_GET)){
 
-			$date=$_GET['link'];
+    
+    if (!empty($_GET)){
+     
 
-			header("Location: tabs.php?link=".$date."");
+		$date=$_GET['link'];
+		$classID=$_GET['class'];
+	
 
-		}else{
-		echo '
-			<script>
-			window.location.href="tabs.php";
-			</script>
-		  ';
-		}
+		header("Location: tabs.php?link=".$date."&class=".$classID."");
+	
+		
+	   
+	}else{
+	
+		header("Location: tabs.php");
+	  
+	}
+	
+	
+
+	
+		
+
+
+
+
 	} else {
 		echo '
 			<div class="alert">
@@ -244,7 +273,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 
 			<div class="login-form">
 				<div class="sign-in-htm">
-					<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+					<form action="<?php echo $_SERVER['PHP_SELF'].$dataLink; ?>" method="post">
 						<div class="group">
 							<div class="tasksInput">
 							<label for="userID" class="label">User ID</label>
@@ -265,7 +294,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 
 						<div class="hr"></div>
 						<div class="foot-lnk">
-							<a href="verify.php">Forgot Password?</a>
+							<a href="#forgot">Forgot Password?</a>
 						</div>
 						</from>
 				</div>

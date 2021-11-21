@@ -1,3 +1,15 @@
+<?php
+  function getClassesID($LecturerID){//Function to get the classes that are taught by the logged in Lecturer
+    include("db.php");//Includes the database file that makes the connection
+    $classID = mysqli_query($conn, "SELECT classID  FROM class WHERE lecturerID = '{$LecturerID}'");
+    $output='';
+    while ($classIDrow = mysqli_fetch_array($classID)){
+      $output .= '<option value="'.$classIDrow['classID'].'">'.$classIDrow['classID'].'</option>';//Displaying the query result in the dropdown list
+    }
+    return $output;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +67,8 @@
       include("db.php");//Includes the database file that makes the connection
       include ("functions.php");
   
+
+
       $barcodestatus=0;
       //fixes and error where session is ignored because an error has been already started
       if(!isset($_SESSION))//If statement to start a session if none was started
@@ -63,6 +77,7 @@
       }
       //Getting username of logged in user
       $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+ 
       if($LecturerID == null){//Redirect user to login page if they are not signe in
         header('Location: login.php');
       }
@@ -76,10 +91,15 @@
         <?php echo 'Welcome ' . $name; echo "</br></br>";?>
     <?php
       
-    if(isset($_POST["barcodeclicked"])){
+    if(isset($_POST["btn2"])){
+      $classID = $_POST["classID"];
+      $showDate = $_POST['classDate'];
+      echo $classID."<br> " . $showDate;
 
       $barcodestatus=1;
       $_SESSION['barcode']=$barcodestatus;
+      $_SESSION['classID']=$classID;
+      $_SESSION['date']=$showDate;
         
         if(isset($_SESSION['barcode'])){
         
@@ -94,14 +114,12 @@
     }
     ?>
 
-    <form action="testing.php" method="POST">
-      <div class="container">
-        <table class="table table-striped">
-          <tbody>
-            <tr>                
-              <th colspan="2" class="text-center"><h3>Your Classes</h3></th>
-            </tr>
-            <tr>                
+    <form action="teacherPortal.php" method="POST">
+      <div class="container"> 
+      <center><th colspan="2" class="text-center"><h3>Your Classes</h3></th></center>
+      <td>&nbsp;</td>
+        <table class="table table-hover">
+          <tbody>               
               <th>Class ID:</th>
               <td>
               <select name ="classID" id="classID">
@@ -126,7 +144,7 @@
             <tr>                
               <th>Barcode</th>
               <td>
-              <input type="button" name="btn2" value="Generate barcode" /><!--Doesn't function yet-->
+              <input type="submit" name="btn2" value="Generate barcode" /><!--Doesn't function yet-->
               </td>
             </tr>
           </tbody>
@@ -135,60 +153,13 @@
     </form>
 
 
-    <div class="container">         
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Class Name</th>
-              <th>Class Statistics</th>
-              <th>Barcode</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              //Displaying classes taught by the logged in teacher
-              $query = mysqli_query($conn, "SELECT * FROM class WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
-              //$className = $row['c_name'];
-              $Row = mysqli_fetch_row($query);
-              do{
-                echo "<tr><td>{$Row[1]}</td>";
-            ?>
-
-            <form action= "edit.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-              <td><input type="submit" value="View Statistics" /></td>
-            </form>
-            <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-            <!-- <td><a href="index.php" class="btn btn-info" role="button">Generate barcode</a></td> -->
-            </form>
-
-             <form action="" method="POST">
-            <td><td><input type="submit" name="barcodeclicked" value="Generate barcode" /></td><</td>
-              </form>
-            </tr>
-            
-            <?php
-                $Row = mysqli_fetch_row($query);
-              }
-              while($Row);
-            ?>
-            
-          </tbody>
-        </table>
+    
+         
     </div>
 </body>
 </html>
 
-<?php
-  function getClassesID($LecturerID){//Function to get the classes that are taught by the logged in Lecturer
-    include("db.php");//Includes the database file that makes the connection
-    $classID = mysqli_query($conn, "SELECT classID  FROM class WHERE lecturerID = '{$LecturerID}'");
-    $output='';
-    while ($classIDrow = mysqli_fetch_array($classID)){
-      $output .= '<option value="'.$classIDrow['classID'].'">'.$classIDrow['classID'].'</option>';//Displaying the query result in the dropdown list
-    }
-    return $output;
-  }
-?>
+
 <script>//JQuery to fetch calss time from database
   $(document).ready(function(){
     $('#classID').change(function(){

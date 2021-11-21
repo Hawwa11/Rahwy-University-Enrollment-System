@@ -4,11 +4,8 @@ session_start();
 
 
 function displayQrImage(){
-
-
-
-    $showDate = date("Y.m.d");
-    $_SESSION['storeDate'] = $showDate;
+  
+    $showDate = $_SESSION['date'];
 
 
   global $urlRelativeFilePath;

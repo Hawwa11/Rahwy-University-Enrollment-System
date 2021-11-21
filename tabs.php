@@ -1,20 +1,22 @@
 <?php 
 include ("db.php");
 include ("functions.php");
-
+session_start();
 if (!empty($_GET)) {
 
 $date=$_GET['link'];
+$classID=$_GET['class'];
 
 
   //Check if user not logged in
  if (!isset($_SESSION['username'])) {
-   header("Location: Login.php?link=".$date."");
+   header("Location: Login.php?link=".$date."&class=".$classID."");
  }else {  
 
     $studentID = $_SESSION['username'];
-    $showDate = date('Y.m.d',$date);
-    $insert = mysqli_query($conn,"INSERT INTO ibm2203_attendance(ID,studentID,c_date) VALUES('NULL','$studentID','$showDate')");
+
+    $tablename = $classID . "_attendance";
+    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
      
     if($insert){
       echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
@@ -65,7 +67,7 @@ $date=$_GET['link'];
     </div> 
 
     <div id="Timetable" class="tabcontent">
-      <?php include("changePassword.php"); ?>
+      <?php //include("changePassword.php"); ?>
     </div> 
 
 
