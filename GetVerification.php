@@ -25,10 +25,10 @@
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Email was sent successfully!</strong> Please write the verification code in the field below.
   </div>';
-//   echo '<script>
-// 	                window.location.href="testVerCode.php";
-// 	            </script>
-//   ';
+  echo '<script>
+	                window.location.href="ConfirmCode.php";
+	            </script>
+  ';
 
 
         }else{
@@ -40,17 +40,7 @@
         }
         
     }
-    if (isset($_POST['submit4'])) {
-        $code=$_SESSION["verificationCode"];
-        echo $code;
-        if ($_POST['Verification'] ==$code ) {
-
-            echo '<script>
-	                window.location.href="ForgetPassword.php";
-	            </script>
-  ';
-        }
-    }
+    
 
 
     ?>
@@ -82,18 +72,7 @@
                         <button id="submit3" name="submit3" class="button" style="margin-bottom: 50px;">Get Code</button>
                     </div>
                 </form>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <div class="group">
-                        <div class="tasksInput">
-                    <label for="Verification" class="label">Verification Code</label>
-                    <input id="Verification" name="Verification" class="input"> </input>
-                    </div>
-                    </div>
-                    <div class="group">
-                    <button id="submit4" name="submit4" class="button">Check</button>
-                    </div>
-                </form>
-
+               
             </div>
 
         </div>
