@@ -115,13 +115,11 @@
     ?>
 
     <form action="teacherPortal.php" method="POST">
-      <div class="container">
-        <table class="table table-striped">
-          <tbody>
-            <tr>                
-              <th colspan="2" class="text-center"><h3>Your Classes</h3></th>
-            </tr>
-            <tr>                
+      <div class="container"> 
+      <center><th colspan="2" class="text-center"><h3>Your Classes</h3></th></center>
+      <td>&nbsp;</td>
+        <table class="table table-hover">
+          <tbody>               
               <th>Class ID:</th>
               <td>
               <select name ="classID" id="classID">
@@ -155,45 +153,8 @@
     </form>
 
 
-    <div class="container">         
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Class Name</th>
-              <th>Class Statistics</th>
-              <th>Barcode</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              //Displaying classes taught by the logged in teacher
-              $query = mysqli_query($conn, "SELECT * FROM class WHERE lecturerID = '{$LecturerID}'");//Query to get all info related to logged in user and saving required info into variables
-              //$className = $row['c_name'];
-              $Row = mysqli_fetch_row($query);
-              do{
-                echo "<tr><td>{$Row[1]}</td>";
-            ?>
-
-            <form action= "edit.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-              <td><input type="submit" value="View Statistics" /></td>
-            </form>
-            <form action= "del.php?pn=<?php echo $Row[1]; ?>" method="POST" enctype="multipart/form-data">
-            <!-- <td><a href="index.php" class="btn btn-info" role="button">Generate barcode</a></td> -->
-            </form>
-
-             <form action="" method="POST">
-            <td><td><input type="submit" name="barcodeclicked" value="Generate barcode" /></td><</td>
-              </form>
-            </tr>
-            
-            <?php
-                $Row = mysqli_fetch_row($query);
-              }
-              while($Row);
-            ?>
-            
-          </tbody>
-        </table>
+    
+         
     </div>
 </body>
 </html>
