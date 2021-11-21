@@ -15,6 +15,7 @@
             $VerificationCode = mt_rand(1111, 9999);
             $ver = $VerificationCode;
             echo $ver;
+            $_SESSION["verificationCode"]=$ver;
             $subject = "Verification Code";
             $txt = "Your verification code is:" . $VerificationCode;
             mail($Row[0], $subject, $txt, 'From: rahwyco@gmail.com'); //The email function
@@ -24,6 +25,12 @@
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Email was sent successfully!</strong> Please write the verification code in the field below.
   </div>';
+//   echo '<script>
+// 	                window.location.href="testVerCode.php";
+// 	            </script>
+//   ';
+
+
         }else{
             echo '
             <div class="alert alert-danger alert-dismissible" style= "margin-bottom:0px;>
@@ -34,13 +41,14 @@
         
     }
     if (isset($_POST['submit4'])) {
-        if ($_POST['Verification'] == "abc") {
+        $code=$_SESSION["verificationCode"];
+        echo $code;
+        if ($_POST['Verification'] ==$code ) {
 
-            echo '
-	<script>
-	window.location.href="ForgetPassword.php";
-	</script>
-  ';;
+            echo '<script>
+	                window.location.href="ForgetPassword.php";
+	            </script>
+  ';
         }
     }
 
