@@ -1,3 +1,15 @@
+<?php
+  function getClassesID($LecturerID){//Function to get the classes that are taught by the logged in Lecturer
+    include("db.php");//Includes the database file that makes the connection
+    $classID = mysqli_query($conn, "SELECT classID  FROM class WHERE lecturerID = '{$LecturerID}'");
+    $output='';
+    while ($classIDrow = mysqli_fetch_array($classID)){
+      $output .= '<option value="'.$classIDrow['classID'].'">'.$classIDrow['classID'].'</option>';//Displaying the query result in the dropdown list
+    }
+    return $output;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +67,8 @@
       include("db.php");//Includes the database file that makes the connection
       include ("functions.php");
   
+
+
       $barcodestatus=0;
       //fixes and error where session is ignored because an error has been already started
       if(!isset($_SESSION))//If statement to start a session if none was started
@@ -63,6 +77,7 @@
       }
       //Getting username of logged in user
       $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
+ 
       if($LecturerID == null){//Redirect user to login page if they are not signe in
         header('Location: login.php');
       }
@@ -76,10 +91,17 @@
         <?php echo 'Welcome ' . $name; echo "</br></br>";?>
     <?php
       
-    if(isset($_POST["barcodeclicked"])){
+    if(isset($_POST["btn2"])){
+      $classID = $_POST["classID"];
+      $date = $_POST["classDate"];
+      $time = strtotime($date);
+      $showDate = date('Y.m.d',$time);
+      echo $classID."<br> " . $showDate;
 
       $barcodestatus=1;
       $_SESSION['barcode']=$barcodestatus;
+      $_SESSION['classID']=$classID;
+      $_SESSION['date']=$showDate;
         
         if(isset($_SESSION['barcode'])){
         
@@ -94,7 +116,7 @@
     }
     ?>
 
-    <form action="testing.php" method="POST">
+    <form action="teacherPortal.php" method="POST">
       <div class="container">
         <table class="table table-striped">
           <tbody>
@@ -126,7 +148,7 @@
             <tr>                
               <th>Barcode</th>
               <td>
-              <input type="button" name="btn2" value="Generate barcode" /><!--Doesn't function yet-->
+              <input type="submit" name="btn2" value="Generate barcode" /><!--Doesn't function yet-->
               </td>
             </tr>
           </tbody>
@@ -178,17 +200,7 @@
 </body>
 </html>
 
-<?php
-  function getClassesID($LecturerID){//Function to get the classes that are taught by the logged in Lecturer
-    include("db.php");//Includes the database file that makes the connection
-    $classID = mysqli_query($conn, "SELECT classID  FROM class WHERE lecturerID = '{$LecturerID}'");
-    $output='';
-    while ($classIDrow = mysqli_fetch_array($classID)){
-      $output .= '<option value="'.$classIDrow['classID'].'">'.$classIDrow['classID'].'</option>';//Displaying the query result in the dropdown list
-    }
-    return $output;
-  }
-?>
+
 <script>//JQuery to fetch calss time from database
   $(document).ready(function(){
     $('#classID').change(function(){

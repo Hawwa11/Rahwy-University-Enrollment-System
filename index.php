@@ -2,7 +2,8 @@
         include("db.php");
         include("functions.php"); 
 
-        $showDate=$_SESSION['storeDate'];
+        $showDate=$_SESSION['date'];
+        $classID=$_SESSION['classID'];
         echo $showDate;
 
                 if(!isset($_SESSION))
