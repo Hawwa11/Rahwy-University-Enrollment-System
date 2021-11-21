@@ -23,6 +23,8 @@ $studentID = $_SESSION['username'];
 if (isset($_POST['submit5'])) {
     
 	$newPass = mysqli_real_escape_string($conn, $_POST['newPass']);
+    
+if($_POST['newPass']==$_POST['Cpass']){
     $Upadtepass= "UPDATE student SET password_hash='$newPass' WHERE studentID='$studentID' ";
     $changed= mysqli_query($conn,$Upadtepass);
     
@@ -37,6 +39,13 @@ if (isset($_POST['submit5'])) {
     }else{
         echo "error";
     }
+}else{
+    echo '
+            <div class="alert alert-danger alert-dismissible" style= "margin-bottom:0px;>
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Password and Confrim Password Do Not Match!</strong> Please check your entry again.
+          </div>';
+}
 
 }
 
@@ -52,7 +61,13 @@ if (isset($_POST['submit5'])) {
 <div class="group">
                         <div class="tasksInput">
         <label for="newPass" class="label">New Password</label>
-        <input id="newPass" name="newPass" class="input"> </input>
+        <input id="newPass" name="newPass" class="input" data-type="password"> </input>
+        </div>
+</div>
+<div class="group">
+                        <div class="tasksInput">
+        <label for="Cpass" class="label">Confrim Password</label>
+        <input id="Cpass" name="Cpass" class="input" data-type="password"> </input>
         </div>
 </div>
 <div class="group">
