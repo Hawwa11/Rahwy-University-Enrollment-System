@@ -48,7 +48,8 @@ if($row == 0){
   $query = mysqli_query($conn, $insert);
 
   if ($query) {
-      echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');</script>";
+    $_SESSION['payment'] = 1;
+      echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');window.location.href='tabs.php';</script>";
   } else {
       echo "<script>alert('Failed to Enroll, please fill the enrollment form again.');window.location.href='tabs.php';</script>";
   }
@@ -64,7 +65,7 @@ if($row == 0){
       </head>
       <body>
     
-        <form class="signup-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <form class="signup-form" action="" method="post">
     
           <!-- form header -->
           <div class="form-header">
