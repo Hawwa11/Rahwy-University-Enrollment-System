@@ -96,11 +96,16 @@ $classID=$_GET['class'];
 
         // To open back the tabs in use instead of home
         <?php
-          if (isset($_POST['cp'])) {
+        
+
+          if (isset($_POST['enroll']) || isset($_POST['pay'])) {
             ?>document.getElementById("defaultOpen3").click();<?php
           }
           else if (isset($_POST['update'])) {
             ?>document.getElementById("defaultOpen2").click();<?php
+          } else if (isset($_SESSION['paid'])) {
+            ?>document.getElementById("defaultOpen4").click();<?php
+            unset ($_SESSION["paid"]);
           }
         ?>
 
