@@ -138,7 +138,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Rahwy</a>
+            <a class="navbar-brand" href="teacherPortal.php">Rahwy</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
@@ -162,6 +162,9 @@
       if(!isset($_SESSION))//If statement to start a session if none was started
       { 
           session_start(); 
+      }
+      if (!isset($_SESSION['username'])){ //directs user to login page if they are not signed in
+        header("Location: login.php");
       }
       //Getting username of logged in user
       $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
@@ -199,6 +202,22 @@
         }
         
         }
+
+      if(isset($_POST["btnStat"])){//Generating statistics for current class
+        //Saving info from dropdown lists into variables
+        $classID = $_POST["classID"];
+        $showDate = $_POST['classDate'];
+        //saving values in a session to send to other pages
+        $_SESSION['statClassID'] = $classID;
+        $_SESSION['statClassDate'] = $showDate;
+        if($classID == null || $showDate == null){
+          echo "<script>alert('Please select a class and a date first');</script>";
+        }
+        else {
+          header("Location:classStatistics.php");
+        }
+        
+      }
     }
     ?>
 
@@ -227,7 +246,7 @@
             <tr>                
               <th>Class Statistics:</th>
               <td>
-              <input type="button" name="btn1" value="View Statistics" /><!--Doesn't function yet-->
+              <input type="submit" name="btnStat" value="View Statistics" /><!--Doesn't function yet-->
             </tr>
             <tr>                
               <th>Barcode</th>
