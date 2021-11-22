@@ -1,6 +1,7 @@
 <?php
 include("db.php");
 $studentID = $_SESSION['username'];
+
 $query = mysqli_query($conn, "SELECT * FROM student WHERE studentID = '{$studentID}'");
  
 if (mysqli_num_rows($query) > 0) {
@@ -16,6 +17,11 @@ if (mysqli_num_rows($query) > 0) {
     }
   }
 } 
+
+//get enrolled subjects
+$subject_list = getEnrolledClassList($conn, $studentID);
+
+
 ?>
 
 <html>
@@ -28,7 +34,7 @@ if (mysqli_num_rows($query) > 0) {
     
         <form class="signup-form" action="" method="">
     
-            <h1>Welcome, <?php echo $sName ?> </h1>
+           
          
     
           <!-- form body -->
@@ -80,9 +86,12 @@ if (mysqli_num_rows($query) > 0) {
             <div class="horizontal-group">
             <div class="form-group container">
               <?php
-            //   foreach($c_data as $key => $value){
-            //     echo "<div class><label></div><br>";
-            //   }
+              if($subject_list != null){
+              foreach($subject_list as $key => $value){
+                echo "<div class><label>".$key." ".$value ."</label></div><br>";
+              }
+            }
+            echo "<div class><label>**Not In Enrolled In Any Subjects Yet.</label></div><br>";
               ?>
             </div>
             </div>
@@ -93,7 +102,7 @@ if (mysqli_num_rows($query) > 0) {
     
     
           <!-- form-footer -->
-          <div class="form-footer">
+          <div class="form-footer2">
           
           </div>
     
@@ -101,4 +110,39 @@ if (mysqli_num_rows($query) > 0) {
     
       </body>
     </html>
+  
+    <?php
+
+    function getEnrolledClassList($conn , $studentID) {
+      //get enrolled class ID
+      $query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
+      if (mysqli_num_rows($query) > 0) {
+        while($row = mysqli_fetch_assoc($query)) {
+          if(mysqli_num_rows($query)!=0){
+            $subjectID = $row['subject_list'];
+           }
+          }
+          $cID = explode(",",$subjectID);
+        
+
+        //loop to get class names for enrolled class ID
+         foreach($cID as $class){
+           $query = mysqli_query($conn, "SELECT c_name FROM class WHERE classID = '".$class."'");
+           while($row = mysqli_fetch_assoc($query)) {
+             if(mysqli_num_rows($query)!=0){
+               $cName[] = $row['c_name'];
+               }
+              }
+            }
+            
+            //combine class name and ID
+            $list = array_combine($cID, $cName);
+          }else{
+            $list = "";
+          }
+            return $list;
+          }
     
+  
+    
+    ?>
