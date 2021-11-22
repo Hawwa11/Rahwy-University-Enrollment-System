@@ -16,17 +16,23 @@ $classID=$_GET['class'];
     $studentID = $_SESSION['username'];
 
     $tablename = $classID . "_attendance";
-    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
-     
-    if($insert){
-      echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
-    }
 
-    else{
+    $query = mysqli_query($conn, "SELECT studentID FROM $tablename WHERE c_date = '{$date}'");
+    $row = mysqli_fetch_array($query);
+    if($row == 0){
+
+    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+
+    if($insert){
+      echo "<script>alert('Attendance captured successfully!');window.location='login.php';</script>";
+    }else{
       echo "query failed".mysqli_error($conn);
     }
 
+    }else{
+      echo "<script>alert('Attendance has already been recorded before!');window.location='login.php';</script>";
     }
+}
 }
 
 
@@ -67,7 +73,7 @@ $classID=$_GET['class'];
     </div> 
 
     <div id="Timetable" class="tabcontent">
-      <?php //include("changePassword.php"); ?>
+      <?php include("timetable.php"); ?>
     </div> 
 
 
@@ -98,14 +104,13 @@ $classID=$_GET['class'];
         <?php
         
 
-          if (isset($_POST['enroll']) || isset($_POST['pay'])) {
+          if (isset($_SESSION['payment']) || isset($_POST['pay'])) {
+            if (isset($_SESSION['payment']))
+              unset($_SESSION['payment']);
             ?>document.getElementById("defaultOpen3").click();<?php
-          }
-          else if (isset($_POST['update'])) {
-            ?>document.getElementById("defaultOpen2").click();<?php
-          } else if (isset($_SESSION['paid'])) {
+          } else if (isset($_SESSION['paidDone'])) {
+            unset($_SESSION['paidDone']);
             ?>document.getElementById("defaultOpen4").click();<?php
-            unset ($_SESSION["paid"]);
           }
         ?>
 

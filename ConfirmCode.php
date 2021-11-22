@@ -6,7 +6,7 @@
 session_start();
 
 $verf= $_SESSION["verificationCode"];
-echo $verf;
+
 
 if (isset($_POST['submit4'])) {
     

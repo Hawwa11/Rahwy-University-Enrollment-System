@@ -19,7 +19,7 @@
 include 'db.php';
 session_start();
 $studentID = $_SESSION['username'];
-    echo $studentID;
+    
 if (isset($_POST['submit5'])) {
     
 	$newPass = mysqli_real_escape_string($conn, $_POST['newPass']);

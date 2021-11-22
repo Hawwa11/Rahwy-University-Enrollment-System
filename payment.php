@@ -27,6 +27,7 @@
 <?php
 
     include ("db.php");
+    $studentID = $_SESSION["username"];
 
     if (isset($_POST['pay'])) {
         $cardName = $_POST['cardName'];
@@ -41,14 +42,6 @@
         $cvv = $_POST['cvv'];
         $address = $_POST['address'];
         $postalCode = $_POST['postalCode'];
-
-        $studentID = $_SESSION['studentID'];
-        $student_name = $_SESSION['student_name'];
-        $subject_list = $_SESSION['subject_list'];
-        echo print_r($subject_list);
-        $subject_listString = implode(",", $subject_list);
-        echo $subject_listString;
-        $sem = $_SESSION['sem'];
 
         if (is_numeric($cardName)) {
             $_SESSION["error1"] = "Value must be alphabet characters only";
@@ -67,18 +60,14 @@
         }
 
         if(!isset($_SESSION["error1"]) && !isset($_SESSION["error2"]) && !isset($_SESSION["error3"]) && !isset($_SESSION["error4"])){
-            $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$studentID', '$student_name', '$subject_listString', 1, '$sem')";
-            $query = mysqli_query($conn, $insert);
+            $update = mysqli_query($conn, "UPDATE enrollment SET paid = 1 WHERE studentID='$studentID'");
 
-            if ($query) {
-                $_SESSION["paid"] = 1;
+            if ($update) {
+                $_SESSION["paidDone"] = 1;
 
-                unset ($_SESSION["studentID"]);
-                unset ($_SESSION["student_name"]);
-                unset ($_SESSION["subject_list"]);
-                unset ($_SESSION["sem"]);
+                
+
                 echo "<script>alert('Payment Successful, you can now view your timetable.');window.location.href='tabs.php';</script>";
-                //echo "<script>alert('Payment Successful, you can now view your timetable.')";
             } else {
                 echo 'Failed to add new record' . mysqli_error($conn);
                 echo "<script>alert('Failed to add new record' . mysqli_error($conn))";
@@ -88,7 +77,7 @@
         }
     }
 
-    if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE paid=1"))) {
+    if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '$studentID' AND paid=1"))) {
 ?>
         <body>
             <div class="signup-form">
@@ -101,7 +90,6 @@
                                 <td colspan="2">
                                     <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
                                     <?php
-                                        $studentID = $_SESSION["username"];
                                         $select = mysqli_query($conn, "SELECT subject_list FROM enrollment WHERE studentID = '$studentID'");
                                         $result = mysqli_fetch_array($select);
                                         $subject_list = explode(",", $result['subject_list']);
@@ -135,26 +123,9 @@
             </div>
         </body>
 <?php
-    } else if(!isset($_SESSION["studentID"])){
+    } else if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '$studentID' AND paid=0"))){
 ?>
-
-    <body>
-        <div class="signup-form">
-                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
-                    <label class="label-title" style="text-transform: none;">Student has not chosen for any subjects to enroll, or student has not paid for the previoous enrollment selected. Please select your subjects to enroll in the Enrollment page.</label> <br /><br />
-                    <label class="label-title" style="text-transform: none;">Please select your subjects to enroll in the Enrollment page.</label>
-                </div>
-        </div>
-    </body>
-<?php
-    } else if(isset($_SESSION["studentID"])) {
-        $studentID = $_SESSION['studentID'];
-        $student_name = $_SESSION['student_name'];
-        $subject_list = $_SESSION['subject_list'];
-        $sem = $_SESSION['sem'];
-?>
-
-    <body>
+<body>
         <div>
             <form class="signup-form" action="" method="POST">
                 <div class="form-header">
@@ -304,6 +275,9 @@
                         <td colspan="2">
                             <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
                             <?php
+                                $select = mysqli_query($conn, "SELECT subject_list FROM enrollment WHERE studentID = '$studentID'");
+                                $result = mysqli_fetch_array($select);
+                                $subject_list = explode(",", $result['subject_list']);
                                 for($i = 0; $i < count($subject_list); $i++) {
                                     $sql = "SELECT * FROM class WHERE classID = '$subject_list[$i]'";
                                     
@@ -369,6 +343,19 @@
         </div>
     </body>
 </html>
+    
+<?php
+    } else {
+?>
+    <body>
+        <div class="signup-form">
+                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
+                    <label class="label-title" style="text-transform: none;">No payments due yet! Student has not enrolled in any subjects or has already paid this semester tuition fee.</label><br><br>
+                    <label class="label-title" style="text-transform: none;">**Please select subjects to enroll in the Enrollment Form or Contact Us for any enquires or isues regarding payment.</label>
+                </div>
+        </div>
+    </body>
+    
 <?php
     } 
 ?>
