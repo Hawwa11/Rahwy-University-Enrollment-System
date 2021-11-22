@@ -13,13 +13,4 @@ function displayQrImage(){
   echo '<center><img src="'.$urlRelativeFilePath.'" /></center>';
 
 }
-
-function logout(){
-		//remove existing sessions
-		session_start();
-		session_destroy();
-
-		// Direct user to Login page
-		header("Location:Login.php");
-}
 ?>

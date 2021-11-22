@@ -130,6 +130,18 @@ if (isset($_POST['submit2'])) {
 	$userID = mysqli_real_escape_string($conn, $_POST['userID']);
 	$password = mysqli_real_escape_string($conn, $_POST['Loginpass']);
 
+	if(isset($_POST["rememberme"])) {
+		setcookie ("member_ID", $userID, time()+ (86400));
+		setcookie ("member_Password", $password, time()+ (86400));
+	}else { //delete cookie if checkbox is not checked
+		if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+			$CookieID = $_COOKIE["member_ID"];
+			$Cookiepassword = $_COOKIE["member_Password"];
+			setcookie("member_ID", $CookieID, time() - 1);
+			setcookie("member_Password", $Cookiepassword, time() - 1);
+		}
+	} 
+
 	$RoleID = substr($_POST['userID'], 0, 1);
 
 	if($RoleID=="L"){
@@ -285,7 +297,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 							<input id="Loginpass" name="Loginpass" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
-							<input id="rememberme" type="checkbox" class="check" name="rememberme" checked>
+							<input id="rememberme" type="checkbox" class="check" name="rememberme" value="1">
 							<label for="rememberme"><span class="icon"></span> Keep me Signed in</label>
 						</div>
 						<div class="group">
@@ -294,33 +306,45 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 
 						<div class="hr"></div>
 						<div class="foot-lnk">
-							<a href="#forgot">Forgot Password?</a>
+							<a href="GetVerification.php">Forgot Password?</a>
 						</div>
-						</from>
+					</form>
 				</div>
+
+				<?php
+					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+						$CookieID = $_COOKIE["member_ID"];
+						$Cookiepassword = $_COOKIE["member_Password"];
+						echo "<script>
+							document.getElementById('userID').value = '$CookieID';
+							document.getElementById('Loginpass').value = '$Cookiepassword';
+							document.getElementById('rememberme').checked = true;
+						</script>";
+					}
+				?>
 
 				<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 					<div class="sign-up-htm">
 						<div class="group">
 							<label for="fname" class="label">First Name</label>
-							<input id="fname" name="fname" type="text" class="input">
+							<input id="fname" name="fname" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="lname" class="label">Last Name</label>
-							<input id="lname" name="lname" type="text" class="input">
+							<input id="lname" name="lname" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="passport" class="label">Passport Number</label>
-							<input id="passport" name="passport" type="text" class="input">
+							<input id="passport" name="passport" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="programID" class="label">Program ID</label>
-							<input id="ProgramID" name="ProgramID" type="text" class="input">
+							<input id="ProgramID" name="ProgramID" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="country" class="label">Nationality</label>
 							<select id="country" name="country" class="country" style="width: 244px;
-							margin-left: 75px; border-radius:36px; height: 40px;">
+							margin-left: 75px; border-radius:36px; height: 40px;" required>
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
@@ -569,23 +593,23 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 						</div>
 						<div class="group">
 							<label for="DOB" class="label">Date of Birth</label>
-							<input id="DOB" name="DOB" type="date" class="input" min="1950-01-01" max="2005-01-01">
+							<input id="DOB" name="DOB" type="date" class="input" min="1950-01-01" max="2005-01-01" required>
 						</div>
 						<div class="group">
 							<label for="pnum" class="label">Phone Number</label>
-							<input id="pnum" name="pnum" type="text" class="input">
+							<input id="pnum" name="pnum" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="pass" class="label">Password</label>
-							<input id="pass" name="pass" type="password" class="input" data-type="password">
+							<input id="pass" name="pass" type="password" class="input" data-type="password" required>
 						</div>
 						<div class="group">
 							<label for="Rpass" class="label">Repeat Password</label>
-							<input id="Rpass" name="Rpass" type="password" class="input" data-type="password">
+							<input id="Rpass" name="Rpass" type="password" class="input" data-type="password" required>
 						</div>
 						<div class="group">
 							<label for="email" class="label">Email Address</label>
-							<input id="email" name="email" type="text" class="input">
+							<input id="email" name="email" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<input type="submit" name="submit" class="button" value="Sign Up">

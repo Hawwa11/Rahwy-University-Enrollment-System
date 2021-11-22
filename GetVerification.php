@@ -15,6 +15,7 @@
             $VerificationCode = mt_rand(1111, 9999);
             $ver = $VerificationCode;
             echo $ver;
+            $_SESSION["verificationCode"]=$ver;
             $subject = "Verification Code";
             $txt = "Your verification code is:" . $VerificationCode;
             mail($Row[0], $subject, $txt, 'From: rahwyco@gmail.com'); //The email function
@@ -24,6 +25,12 @@
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Email was sent successfully!</strong> Please write the verification code in the field below.
   </div>';
+  echo '<script>
+	                window.location.href="ConfirmCode.php";
+	            </script>
+  ';
+
+
         }else{
             echo '
             <div class="alert alert-danger alert-dismissible" style= "margin-bottom:0px;>
@@ -33,16 +40,7 @@
         }
         
     }
-    if (isset($_POST['submit4'])) {
-        if ($_POST['Verification'] == "abc") {
-
-            echo '
-	<script>
-	window.location.href="changePassword.php";
-	</script>
-  ';;
-        }
-    }
+    
 
 
     ?>
@@ -74,18 +72,7 @@
                         <button id="submit3" name="submit3" class="button" style="margin-bottom: 50px;">Get Code</button>
                     </div>
                 </form>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <div class="group">
-                        <div class="tasksInput">
-                    <label for="Verification" class="label">Verification Code</label>
-                    <input id="Verification" name="Verification" class="input"> </input>
-                    </div>
-                    </div>
-                    <div class="group">
-                    <button id="submit4" name="submit4" class="button">Check</button>
-                    </div>
-                </form>
-
+               
             </div>
 
         </div>

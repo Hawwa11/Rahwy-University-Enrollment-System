@@ -45,7 +45,7 @@ $classID=$_GET['class'];
     <li><button class="tablink" onclick="openPage('Enrollment', this)"id="defaultOpen2">Enrollment</button></li>
     <li><button class="tablink" onclick="openPage('Payment', this)"id="defaultOpen3">Payment</button></li>
     <li><button class="tablink" onclick="openPage('Timetable', this)"id="defaultOpen4">Timetable</button></li>
-    <input type="submit" class="lbtn" name="logout" value="Logout">
+    <input type="submit" class="lbtn" name="logout" value="Logout" onclick="window.location='logout.php'">
     </ul>
     
 </nav>
@@ -67,7 +67,7 @@ $classID=$_GET['class'];
     </div> 
 
     <div id="Timetable" class="tabcontent">
-      <?php //include("changePassword.php"); ?>
+      <?php include("timetable.php"); ?>
     </div> 
 
 
@@ -96,11 +96,15 @@ $classID=$_GET['class'];
 
         // To open back the tabs in use instead of home
         <?php
-          if (isset($_POST['cp'])) {
+        
+
+          if (isset($_SESSION['payment']) || isset($_POST['pay'])) {
+            if (isset($_SESSION['payment']))
+              unset($_SESSION['payment']);
             ?>document.getElementById("defaultOpen3").click();<?php
-          }
-          else if (isset($_POST['update'])) {
-            ?>document.getElementById("defaultOpen2").click();<?php
+          } else if (isset($_SESSION['paidDone'])) {
+            unset($_SESSION['paidDone']);
+            ?>document.getElementById("defaultOpen4").click();<?php
           }
         ?>
 

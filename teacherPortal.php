@@ -146,7 +146,7 @@
                 <li><a href="teacherProfile.php"><i class="fa fa-fw fa-user"></i>Profile</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="login.php"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
+                <li><a href="logout.php"><i class="fa fa-fw fa-sign-out"></i>Logout</a></li>
             </ul>
             </div>
         </div>
