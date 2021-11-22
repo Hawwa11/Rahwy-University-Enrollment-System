@@ -16,19 +16,24 @@ $classID=$_GET['class'];
     $studentID = $_SESSION['username'];
 
     $tablename = $classID . "_attendance";
-    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
-     
-    if($insert){
-      echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
-    }
 
-    else{
+    $query = mysqli_query($conn, "SELECT studentID FROM $tablename WHERE c_date = '{$date}'");
+    $row = mysqli_fetch_array($query);
+    if($row == 0){
+
+    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+
+    if($insert){
+      echo "<script>alert('Attendance captured successfully!');window.location='login.php';</script>";
+    }else{
       echo "query failed".mysqli_error($conn);
     }
 
+    }else{
+      echo "<script>alert('Attendance has already been recorded before!');window.location='login.php';</script>";
     }
 }
-
+echo "<script>alert('');window.location='login.php';</script>";
 
 ?>
 <html>
