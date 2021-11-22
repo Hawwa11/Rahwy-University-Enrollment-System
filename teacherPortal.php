@@ -81,7 +81,7 @@
     <script>
         $(document).ready(function(){
             $('#calendar').fullCalendar({
-                editable:true,
+                editable:false,//Prevents user from moving around events
                 header:{
                 left:'prev, next today',
                 center:'title',
