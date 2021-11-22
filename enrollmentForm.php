@@ -40,7 +40,7 @@ if($row == 0){
   
   $_SESSION['studentID'] = $sID;
   $_SESSION['student_name'] = $sName;
-  $_SESSION['subject_list'] =   $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
+  $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
   $_SESSION['sem'] = $semester;
   }else{
     ?>
