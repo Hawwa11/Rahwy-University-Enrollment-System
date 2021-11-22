@@ -31,16 +31,16 @@ if (mysqli_num_rows($query) > 0) {
 } 
 
 
-//add class records
-// $query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
+//check if student enrolled already
+$query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
  
-// $row = mysqli_fetch_array($query);
-// if($row == 0){
+$row = mysqli_fetch_array($query);
+if($row == 0){
   if(isset($_POST['enroll'])){
   
   $_SESSION['studentID'] = $sID;
   $_SESSION['student_name'] = $sName;
-  $_SESSION['subject_list'] =  $_POST['subs'];
+  $_SESSION['subject_list'] =   $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
   $_SESSION['sem'] = $semester;
   }else{
     ?>
@@ -136,42 +136,38 @@ if (mysqli_num_rows($query) > 0) {
           </div>
     
         </form>
-    
+
+        
+
       </body>
     </html>
     
     <?php
   }
-// }else{
+}else{
 
   ?>
 
-  <!-- <html>
+  <html>
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="form.css">
   </head>
   <body>
-      form body 
-      <div class="form-body">
-        
-        <div class="horizontal-group">
-        <div class="form-group container">
-        <label class="label-title">Student already enrolled</label>
-        </div>
-        </div>
-  
-
-
-        </div>
-
+      
+  <div class="signup-form">
+                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
+                    <label class="label-title" style="text-transform: none;"><br>Student has already enrolled for this semester.<br>Please Contact Us for any enquiries or issues regarding Enrollment.</label> <br><br>
+                </div>
+        </div> 
+       
 
   </body>
-</html> -->
+</html>
   
 <?php
 
-// }
+}
 
 ?>
 
