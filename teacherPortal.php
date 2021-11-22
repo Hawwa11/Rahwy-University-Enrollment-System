@@ -8,8 +8,56 @@
     }
     return $output;
   }
-?>
 
+  function createLTimetable($LecturerID){//Function to create lecturer timetable database
+    include("db.php");//Includes the database file that makes the connection
+    mysqli_query($conn, "DELETE FROM lecturertimetable");
+    $query = mysqli_query($conn, "SELECT *  FROM class WHERE lecturerID = '{$LecturerID}'");
+    while($row = mysqli_fetch_array($query)){
+      $dbClassID[] = $row['classID'];
+      //$dbClassName[] = $row['c_name'];
+      $dbClassDates[] = $row['dates_list'];
+      $dbClassTime[] = $row['c_time'];
+    }
+
+    for ($i=0; $i<count($dbClassID); $i++){//Creating new arrays to save info that will be saved in the database
+      
+      $query = mysqli_query($conn, "SELECT dates_list FROM class WHERE classID='{$dbClassID[$i]}'");//getting lists of date
+      $row = $query -> fetch_array(MYSQLI_NUM);
+      $dates = explode(',', $row[0], 10);
+      
+      //separating start and end time
+      $query = mysqli_query($conn, "SELECT c_time FROM class WHERE classID='{$dbClassID[$i]}'");
+      $timeArray = array();        
+      while($classTimerow = mysqli_fetch_assoc($query)){
+        $timeArray[] = $classTimerow['c_time'];
+      }
+      //exploding
+      for ($k=0; $k< count($timeArray); $k++){
+        $rawTime[] = explode('-', $timeArray[0], 2);
+      }
+      for($count=0; $count<count($dates); $count++){
+        $strstart = $dates[$count] . ' ' . $rawTime[0][0];//Saving start date and time in a variable
+        $strend = $dates[$count] . ' ' . $rawTime[0][1];
+        $start = date("y-m-d H:i:s", strtotime($strstart));
+        $end = date("y-m-d H:i:s", strtotime($strend));
+        //Query to insert info into database
+        mysqli_query($conn, "INSERT INTO lecturertimetable (class, start_event, end_event)
+        VALUES
+        (
+          '{$dbClassID[$i]}',
+          '{$start}',
+          '{$end}'
+          )"
+        );
+      }
+      $rawTime=array();
+    }
+  }
+?>
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +70,48 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="jquery.js"></script>
+
     
+    <!--Libraries for Calendar-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#calendar').fullCalendar({
+                editable:true,
+                header:{
+                left:'prev, next today',
+                center:'title',
+                right:'month, agendaWeek, agendaDay'
+                },
+                //events: 'loadCalendarEvents.php'
+                events: function(start, end, timezone, callback){
+                  $.ajax({
+                    url: 'loadCalendarEvents.php',
+                    dataType: 'json',
+                    data: {
+                    },
+                    success: function(data){
+                      var events = [];
+                  
+                      for (var i=0; i<data.length; i++){
+                        events.push({
+                          title: data[i]['class'],
+                          start: data[i]['start_event'],
+                          end: data[i]['end_event'],
+                        });
+                      }
+                      //adding the callback
+                      callback(events);
+                    }
+                  });
+                }
+            });
+        });
+    </script>
 
     <title>Teacher Portal</title>
 
@@ -77,7 +165,7 @@
       }
       //Getting username of logged in user
       $LecturerID = $_SESSION['username'];//Saving the username from the session into a variable
- 
+      createLTimetable($LecturerID);//Updating timetable in database
       if($LecturerID == null){//Redirect user to login page if they are not signe in
         header('Location: login.php');
       }
@@ -150,11 +238,11 @@
           </tbody>
         </table>
       </div>
-    </form>
-
-
-    
-         
+    </form>    
+    </div>
+    <!--Calendar-->
+    <div class="container">
+        <div id="calendar"></div>
     </div>
 </body>
 </html>
