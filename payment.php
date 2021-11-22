@@ -65,7 +65,7 @@
             if ($update) {
                 $_SESSION["paidDone"] = 1;
 
-                unset ($_SESSION["studentID"]);
+                
 
                 echo "<script>alert('Payment Successful, you can now view your timetable.');window.location.href='tabs.php';</script>";
             } else {
@@ -345,7 +345,7 @@
 </html>
     
 <?php
-    } else if(!isset($_SESSION["studentID"])) {
+    } else {
 ?>
     <body>
         <div class="signup-form">
