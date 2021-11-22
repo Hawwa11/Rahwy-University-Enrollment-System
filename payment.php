@@ -45,9 +45,6 @@
         $studentID = $_SESSION['studentID'];
         $student_name = $_SESSION['student_name'];
         $subject_list = $_SESSION['subject_list'];
-        echo print_r($subject_list);
-        $subject_listString = implode(",", $subject_list);
-        echo $subject_listString;
         $sem = $_SESSION['sem'];
 
         if (is_numeric($cardName)) {
@@ -67,7 +64,7 @@
         }
 
         if(!isset($_SESSION["error1"]) && !isset($_SESSION["error2"]) && !isset($_SESSION["error3"]) && !isset($_SESSION["error4"])){
-            $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$studentID', '$student_name', '$subject_listString', 1, '$sem')";
+            $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$studentID', '$student_name', '$subject_list', 1, '$sem')";
             $query = mysqli_query($conn, $insert);
 
             if ($query) {
@@ -141,8 +138,8 @@
     <body>
         <div class="signup-form">
                 <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
-                    <label class="label-title" style="text-transform: none;">Student has not chosen for any subjects to enroll, or student has not paid for the previoous enrollment selected. Please select your subjects to enroll in the Enrollment page.</label> <br /><br />
-                    <label class="label-title" style="text-transform: none;">Please select your subjects to enroll in the Enrollment page.</label>
+                    <label class="label-title" style="text-transform: none;">No payments due yet! Student has not enrolled in any subjects or has already paid this semester tuition fee.</label><br><br>
+                    <label class="label-title" style="text-transform: none;">**Please select subjects to enroll in the Enrollment Form or Contact Us for any enquires or isues regarding payment.</label>
                 </div>
         </div>
     </body>

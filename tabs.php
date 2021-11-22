@@ -67,7 +67,7 @@ $classID=$_GET['class'];
     </div> 
 
     <div id="Timetable" class="tabcontent">
-      <?php //include("changePassword.php"); ?>
+      <?php include("timetable.php"); ?>
     </div> 
 
 

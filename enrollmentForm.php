@@ -42,6 +42,19 @@ if($row == 0){
   $_SESSION['student_name'] = $sName;
   $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
   $_SESSION['sem'] = $semester;
+
+  // $subject_list = implode(",",$_POST['subs']);
+  // $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$sID', '$sName', '$subject_list', 0, '$semester')";
+  // $query = mysqli_query($conn, $insert);
+
+  // if ($query) {
+  //     $_SESSION["paid"] = 1;
+
+  //     echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');window.location.href='tabs.php';</script>";
+  // } else {
+  //     echo "<script>alert('Failed to Enroll, please fill the enrollment form again.');window.location.href='tabs.php';</script>";
+  // }
+  
   }else{
     ?>
 
@@ -157,7 +170,7 @@ if($row == 0){
       
   <div class="signup-form">
                 <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
-                    <label class="label-title" style="text-transform: none;"><br>Student has already enrolled for this semester.<br>Please Contact Us for any enquiries or issues regarding Enrollment.</label> <br><br>
+                    <label class="label-title" style="text-transform: none;"><br>Student has already enrolled for this semester.<br><br>**Please Contact Us for any enquiries or issues regarding Enrollment.</label> <br><br>
                 </div>
         </div> 
        
