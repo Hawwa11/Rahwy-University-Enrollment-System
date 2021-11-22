@@ -1,8 +1,10 @@
 <?php
 include("db.php");
-$studentID = "I2123456";
+$studentID = $_SESSION['username'];
 
-$subject_list = createLTimetable($studentID,$conn);
+$cID = getClassID($studentID,$conn);
+$subject_list = createLTimetable($studentID,$conn,$cID);
+$lecturerID = getLecturerID($studentID,$conn,$cID);
 
 ?>
 
@@ -27,7 +29,7 @@ $subject_list = createLTimetable($studentID,$conn);
                 //events: 'loadCalendarEvents.php'
                 events: function(start, end, timezone, callback){
                   $.ajax({
-                    url: 'loadCalendarEvents.php',
+                    url: 'loadEventsStudent.php',
                     dataType: 'json',
                     data: {
                     },
@@ -67,22 +69,26 @@ $subject_list = createLTimetable($studentID,$conn);
           <label class="label-title">Class Name</label>
         </div>
         <div class="form-group right">
-      
-        <label class="label-title">Lecturer Name</label>
-
+            <label class="label-title">Lecturer Name</label>
         </div>
       </div>
 
 
       <div class="horizontal-group">
-      <div class="form-group container">
-        <?php
-        foreach($subject_list as $key => $value){
-          echo "<div class><label>".$key." ".$value ."</label></div><br>";
-        }
-      
-        ?>
-      </div>
+        <div class="form-group left">
+              <?php
+              foreach($subject_list as $key => $value){
+                  echo "<div class><label>".$key." ".$value ."</label></div><br>";
+                }
+                ?>
+        </div>
+        <div class="form-group right">
+            <?php
+            for($l=0; $l<count($lecturerID); $l++){
+                echo "<div class><label>".$lecturerID[$l]."</label></div><br>";
+            }
+            ?>
+        </div>
       </div>
 
 
@@ -92,29 +98,34 @@ $subject_list = createLTimetable($studentID,$conn);
 
     <!-- form-footer -->
     <div class="form-footer2"></div>
+  
   </form>
-
-
-
-     <div class="container">
+  <div class="container" style="width=100%;">
         <div id="calendar"></div>
     </div>
+ 
     </body>
 </html>
 
 <?php
-  function createLTimetable($studentID,$conn){//Function to create lecturer timetable database
+
+  function getClassID($studentID,$conn){//get enrolled class ID
+    $query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
+    if (mysqli_num_rows($query) > 0) {
+      while($row = mysqli_fetch_assoc($query)) {
+        if(mysqli_num_rows($query)!=0){
+          $subjectID = $row['subject_list'];
+         }
+        }
+      
+        $cID = explode(",",$subjectID);
+        return $cID;
+  }
+}
+
+
+  function createLTimetable($studentID,$conn,$cID){//Function to create student timetable database
     mysqli_query($conn, "DELETE FROM studenttimetable");
-          //get enrolled class ID
-          $query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
-          if (mysqli_num_rows($query) > 0) {
-            while($row = mysqli_fetch_assoc($query)) {
-              if(mysqli_num_rows($query)!=0){
-                $subjectID = $row['subject_list'];
-               }
-              }
-            
-              $cID = explode(",",$subjectID);
     
             //loop to get class names for enrolled class ID
              foreach($cID as $class){
@@ -131,12 +142,22 @@ $subject_list = createLTimetable($studentID,$conn);
              
                 //combine class name and ID
                 $list = array_combine($cID, $cName);
-               
+             
 
     for ($i=0; $i<count($cID); $i++){//Creating new arrays to save info that will be saved in the database
+
         $dates = explode(",",$cDates[$i], 10);
-        $rawTime = explode("-",$cTime[$i], 2);
-        print_r($cTime);
+
+         //separating start and end time
+      $query = mysqli_query($conn, "SELECT c_time FROM class WHERE classID='{$cID[$i]}'");
+      $timeArray = array();        
+      while($classTimerow = mysqli_fetch_assoc($query)){
+        $timeArray[] = $classTimerow['c_time'];
+      }
+      //exploding
+      for ($k=0; $k< count($timeArray); $k++){
+        $rawTime[] = explode('-', $timeArray[0], 2);
+      }
 
       for($count=0; $count<count($dates); $count++){
         $strstart = $dates[$count] . ' ' . $rawTime[0][0];//Saving start date and time in a variable
@@ -144,10 +165,6 @@ $subject_list = createLTimetable($studentID,$conn);
         $start = date("y-m-d H:i:s", strtotime($strstart));
         $end = date("y-m-d H:i:s", strtotime($strend));
 
-        echo $dates[$count] . "<br>";
-        echo $cTime[$i] . "<br>";
-        echo $rawTime[0][0] . "<br>";
-        echo $rawTime[0][1] . "<br>";
 
         //Query to insert info into database
         mysqli_query($conn, "INSERT INTO studenttimetable (class, start_event, end_event)
@@ -165,5 +182,31 @@ $subject_list = createLTimetable($studentID,$conn);
     return $list;
 }
  
+
+function getLecturerID($studentID,$conn,$cID){//Function to create lecturer timetable database
+
+            //loop to get lecturer ID
+             foreach($cID as $class){
+               $query = mysqli_query($conn, "SELECT * FROM class WHERE classID = '".$class."'");
+               while($row = mysqli_fetch_assoc($query)) {
+                 if(mysqli_num_rows($query)!=0){
+                   $lecturerID[] = $row['lecturerID'];
+                   }
+                  } 
+                }
+            //loop to get lecturer name
+            foreach($lecturerID as $l){
+                $query = mysqli_query($conn, "SELECT * FROM lecturer WHERE lecturerID = '".$l."'");
+                while($row = mysqli_fetch_assoc($query)) {
+                  if(mysqli_num_rows($query)!=0){
+                    $lname[] = $row['lname'];
+                    }
+                   } 
+                 }
+             
+    
+    return  $lname;
 }
+ 
+
   ?>
