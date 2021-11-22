@@ -98,15 +98,14 @@ $classID=$_GET['class'];
         <?php
         
 
-          if (isset($_SESSION['paid']) || isset($_POST['pay'])) {
+          if (isset($_POST['pay'])) {
             ?>document.getElementById("defaultOpen3").click();<?php
-            if (isset($_SESSION['paid']))
-              unset ($_SESSION["paid"]);
-          } else if (isset($_POST['update'])) {
-            ?>document.getElementById("defaultOpen2").click();<?php
+          } else if (isset($_SESSION['paid'])) {
+            unset($_SESSION['paid']);
+            ?>document.getElementById("defaultOpen3").click();<?php
           } else if (isset($_SESSION['paidDone'])) {
+            unset($_SESSION['paidDone']);
             ?>document.getElementById("defaultOpen4").click();<?php
-            unset ($_SESSION["paidDone"]);
           }
         ?>
 
