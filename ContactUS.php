@@ -58,7 +58,7 @@ button:hover {
 
     <!-- and role or location -->
     <h2>
-            We inspire to scam
+            Degree Dispenser
           </h2>
 
   </header>
@@ -67,8 +67,7 @@ button:hover {
   <div class="profile-bio">
 
     <p>
-     We want to take your money and give you a piece of paper instead where people think it has a value. Definitely not throwing shade
-     
+     A degree is the only thing you need in life to succeed without it you will definitely be poor. We will give what you need.
     </p>
 
     <button style= "margin-left:35px;"  onclick="window.location.href='tabs.php'">

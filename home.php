@@ -106,7 +106,7 @@ $subject_list = getEnrolledClassList($conn, $studentID);
           <div class="form-footer2"></div>
 
           <center><div>
-            <a class=lbtn2 href="ContactUS.php">LinkContactUs</a>
+            <a class=lbtn2 href="ContactUS.php">Contact Us</a>
             <a class=lbtn2 href="ContactUS.php">Profile</a>
          </div></center>
 
