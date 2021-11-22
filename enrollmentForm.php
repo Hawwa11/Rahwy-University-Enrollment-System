@@ -36,15 +36,12 @@ if (mysqli_num_rows($query) > 0) {
  
 // $row = mysqli_fetch_array($query);
 // if($row == 0){
-  if(isset($_POST['submit'])){
+  if(isset($_POST['enroll'])){
   
   $_SESSION['studentID'] = $sID;
   $_SESSION['student_name'] = $sName;
   $_SESSION['subject_list'] =  $_POST['subs'];
   $_SESSION['sem'] = $semester;
-
-  header("Location: paymentpagesample.php");
-
   }else{
     ?>
 
@@ -135,7 +132,7 @@ if (mysqli_num_rows($query) > 0) {
     
           <!-- form-footer -->
           <div class="form-footer">
-          <input type="submit" class="btn" name="submit" value="Submit">
+          <input type="submit" class="btn" name="enroll" value="Submit">
           </div>
     
         </form>
