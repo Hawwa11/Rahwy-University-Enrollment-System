@@ -14,7 +14,7 @@
             $Row = mysqli_fetch_row($GetEmail);
             $VerificationCode = mt_rand(1111, 9999);
             $ver = $VerificationCode;
-            echo $ver;
+            
             $_SESSION["verificationCode"]=$ver;
             $subject = "Verification Code";
             $txt = "Your verification code is:" . $VerificationCode;
