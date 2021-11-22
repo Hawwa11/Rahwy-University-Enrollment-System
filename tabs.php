@@ -98,10 +98,7 @@ $classID=$_GET['class'];
         <?php
         
 
-          if (isset($_POST['pay'])) {
-            ?>document.getElementById("defaultOpen3").click();<?php
-          } else if (isset($_SESSION['paid'])) {
-            unset($_SESSION['paid']);
+          if (isset($_POST['enroll']) || isset($_POST['pay'])) {
             ?>document.getElementById("defaultOpen3").click();<?php
           } else if (isset($_SESSION['paidDone'])) {
             unset($_SESSION['paidDone']);

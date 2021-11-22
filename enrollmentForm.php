@@ -48,9 +48,7 @@ if($row == 0){
   $query = mysqli_query($conn, $insert);
 
   if ($query) {
-      $_SESSION["paid"] = 1;
-
-      echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');window.location.href='tabs.php';</script>";
+      echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');</script>";
   } else {
       echo "<script>alert('Failed to Enroll, please fill the enrollment form again.');window.location.href='tabs.php';</script>";
   }
