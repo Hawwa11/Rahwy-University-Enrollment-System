@@ -38,22 +38,22 @@ $row = mysqli_fetch_array($query);
 if($row == 0){
   if(isset($_POST['enroll'])){
   
-  $_SESSION['studentID'] = $sID;
-  $_SESSION['student_name'] = $sName;
-  $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
-  $_SESSION['sem'] = $semester;
+  // $_SESSION['studentID'] = $sID;
+  // $_SESSION['student_name'] = $sName;
+  // $_SESSION['subject_list'] =  implode(",",$_POST['subs']);
+  // $_SESSION['sem'] = $semester;
 
-  // $subject_list = implode(",",$_POST['subs']);
-  // $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$sID', '$sName', '$subject_list', 0, '$semester')";
-  // $query = mysqli_query($conn, $insert);
+  $subject_list = implode(",",$_POST['subs']);
+  $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$sID', '$sName', '$subject_list', 0, '$semester')";
+  $query = mysqli_query($conn, $insert);
 
-  // if ($query) {
-  //     $_SESSION["paid"] = 1;
+  if ($query) {
+      $_SESSION["paid"] = 1;
 
-  //     echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');window.location.href='tabs.php';</script>";
-  // } else {
-  //     echo "<script>alert('Failed to Enroll, please fill the enrollment form again.');window.location.href='tabs.php';</script>";
-  // }
+      echo "<script>alert('Enrolled Successfully, payment can be made from the Payment page.');window.location.href='tabs.php';</script>";
+  } else {
+      echo "<script>alert('Failed to Enroll, please fill the enrollment form again.');window.location.href='tabs.php';</script>";
+  }
   
   }else{
     ?>
