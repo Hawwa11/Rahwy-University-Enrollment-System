@@ -17,7 +17,8 @@
             
             $_SESSION["verificationCode"]=$ver;
             $subject = "Verification Code";
-            $txt = "Your verification code is:" . $VerificationCode;
+            $txt = "Your verification code is:" . $VerificationCode.". If you did not request this please contact the admin 
+            at rahwyco@gmail.com.";
             mail($Row[0], $subject, $txt, 'From: rahwyco@gmail.com'); //The email function
     
             echo '
