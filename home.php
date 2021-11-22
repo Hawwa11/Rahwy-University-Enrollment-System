@@ -106,8 +106,8 @@ $subject_list = getEnrolledClassList($conn, $studentID);
           <div class="form-footer2"></div>
 
           <center><div>
-          <input type="submit" class="lbtn2" name="contactus" value="Contact Us" style="float: right; margin: 5% 10%;" onclick="window.location='ContactUS.php'">
-          <input type="submit" class="lbtn2" name="profile" value="Profile" style="float: left; margin: 5% 10%;" onclick="window.location=''">
+            <a class=lbtn2 href="ContactUS.php">LinkContactUs</a>
+            <a class=lbtn2 href="ContactUS.php">Profile</a>
          </div></center>
 
         </form>
