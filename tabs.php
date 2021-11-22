@@ -33,7 +33,8 @@ $classID=$_GET['class'];
       echo "<script>alert('Attendance has already been recorded before!');window.location='login.php';</script>";
     }
 }
-echo "<script>alert('');window.location='login.php';</script>";
+}
+
 
 ?>
 <html>
