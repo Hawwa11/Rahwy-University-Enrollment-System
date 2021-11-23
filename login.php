@@ -44,7 +44,23 @@ if (isset($_POST['submit'])) {
 	$startPassprtCheck = mysqli_query($conn, $passportCheck);
 
 	if ($_POST['pass'] != $_POST['Rpass']) {
-		echo "<script>alert('Password and confirm password must be the same!')</script>";
+		echo '
+			<div class="alert">
+			<span class="closebtn">&times;</span>  
+			<strong> Password and confirm password do not match ! </strong> please enter them again.
+		  </div>
+		  <script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>';
 	} else if (mysqli_num_rows($startUCheck) > 0) {
 		echo '<div class="alert">
 			<span class="closebtn">&times;</span>  
@@ -102,14 +118,19 @@ for (i = 0; i < close.length; i++) {
 </script>';
 	} else {
 
+		$Insertquery="INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES(?,?,?,?,?,?,?,?,?,?,'AUG21')";
+		$stmt= mysqli_stmt_init($conn);
+		if(!mysqli_stmt_prepare($stmt,$Insertquery)){
+			echo "SQL ERROR";
+		}else{
+			mysqli_stmt_bind_param($stmt,"ssssssssss", $IDGen, $email, $pass, $pNum, $DOB, $passport, $country, $fname, $lname, $programID);
+			mysqli_stmt_execute($stmt);
 
-		$insert = mysqli_query($conn, "INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES('$ID','$email','$pass','$pNum','$DOB','$passport','$country','$fname','$lname','$programID','AUG21')");
-		//Sending Email to student with their new student ID
+			//Sending Email to student with their new student ID
 		$subject = "Your Student ID";
 		$txt = "Thank you for registering. Your student ID is " . $IDGen;
 		mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
-		if ($insert) {
-			$_SESSION["username"] = $IDGen;
+		$_SESSION["username"] = $IDGen;
 
 			echo '
 			
@@ -118,9 +139,25 @@ for (i = 0; i < close.length; i++) {
 			</script>
 			
 		  ';
-		} else {
-			echo 'Failed to add new record' . mysqli_error($conn);
+			
 		}
+		//Sending Email to student with their new student ID
+		// $subject = "Your Student ID";
+		// $txt = "Thank you for registering. Your student ID is " . $IDGen;
+		// mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
+		// if (mysqli_stmt_execute($stmt)) {
+		// 	$_SESSION["username"] = $IDGen;
+
+		// 	echo '
+			
+		// 	<script>
+		// 	window.location.href="tabs.php";
+		// 	</script>
+			
+		//   ';
+		// } else {
+		// 	echo 'Failed to add new record' . mysqli_error($conn);
+		// }
 	}
 }
 
@@ -130,7 +167,7 @@ if (isset($_POST['submit2'])) {
 	$userID = mysqli_real_escape_string($conn, $_POST['userID']);
 	$password = mysqli_real_escape_string($conn, $_POST['Loginpass']);
 
-	if(isset($_POST["rememberme"])) {
+	if(isset($_POST["rememberme"])) { //set cookie if checkbox is checked
 		setcookie ("member_ID", $userID, time()+ (86400));
 		setcookie ("member_Password", $password, time()+ (86400));
 	}else { //delete cookie if checkbox is not checked
@@ -186,24 +223,6 @@ if (isset($_POST['submit2'])) {
 
 	if (mysqli_num_rows($startLoginCheck) > 0) {
 		$_SESSION["username"] = $_POST['userID'];
-// 		if(!empty($_POST["rememberme"])) {
-// 			setcookie ("member_ID",$_POST["userID"],time()+ (86400));
-// 			setcookie ("member_Password",$_POST["Loginpass"],time()+ (86400));
-// 		}else { //delete cookie if checkbox is not checked
-// 			if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
-// 				$CookieID = $_COOKIE["member_ID"];
-// 				$Cookiepassword = $_COOKIE["member_Password"];
-// 				setcookie("member_ID", $CookieID, time() - 1);
-// 				setcookie("member_Password", $Cookiepassword, time() - 1);
-// 			}
-// 	} 
-// 	echo '
-// 	<script>
-// 	window.location.href="tabs.php?ck=1";
-// 	</script>
-//   ';
-// }else {
-
     
     if (!empty($_GET)){
      
@@ -250,18 +269,6 @@ for (i = 0; i < close.length; i++) {
 </script>';
 	}
 }
-}
-
-
-if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
-	$CookieID = $_COOKIE["member_ID"];
-	$Cookiepassword = $_COOKIE["member_Password"];
-	echo "<script>
-		document.getElementById('userID').value = '$CookieID';
-		document.getElementById('Loginpass').value = '$Cookiepassword';
-		document.getElementById('rememberme').checked = true;
-	</script>";
-	//it is not showing in the fields idk why
 }
 ?>
 
@@ -312,7 +319,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 				</div>
 
 				<?php
-					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) { //set cookie to the input fields if cookies exist
 						$CookieID = $_COOKIE["member_ID"];
 						$Cookiepassword = $_COOKIE["member_Password"];
 						echo "<script>
@@ -327,24 +334,24 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 					<div class="sign-up-htm">
 						<div class="group">
 							<label for="fname" class="label">First Name</label>
-							<input id="fname" name="fname" type="text" class="input">
+							<input id="fname" name="fname" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="lname" class="label">Last Name</label>
-							<input id="lname" name="lname" type="text" class="input">
+							<input id="lname" name="lname" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="passport" class="label">Passport Number</label>
-							<input id="passport" name="passport" type="text" class="input">
+							<input id="passport" name="passport" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="programID" class="label">Program ID</label>
-							<input id="ProgramID" name="ProgramID" type="text" class="input">
+							<input id="ProgramID" name="ProgramID" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="country" class="label">Nationality</label>
 							<select id="country" name="country" class="country" style="width: 244px;
-							margin-left: 75px; border-radius:36px; height: 40px;">
+							margin-left: 75px; border-radius:36px; height: 40px;" required>
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
@@ -593,23 +600,23 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 						</div>
 						<div class="group">
 							<label for="DOB" class="label">Date of Birth</label>
-							<input id="DOB" name="DOB" type="date" class="input" min="1950-01-01" max="2005-01-01">
+							<input id="DOB" name="DOB" type="date" class="input" min="1950-01-01" max="2005-01-01" required>
 						</div>
 						<div class="group">
 							<label for="pnum" class="label">Phone Number</label>
-							<input id="pnum" name="pnum" type="text" class="input">
+							<input id="pnum" name="pnum" type="text" class="input" required>
 						</div>
 						<div class="group">
 							<label for="pass" class="label">Password</label>
-							<input id="pass" name="pass" type="password" class="input" data-type="password">
+							<input id="pass" name="pass" type="password" class="input" data-type="password" required>
 						</div>
 						<div class="group">
 							<label for="Rpass" class="label">Repeat Password</label>
-							<input id="Rpass" name="Rpass" type="password" class="input" data-type="password">
+							<input id="Rpass" name="Rpass" type="password" class="input" data-type="password" required>
 						</div>
 						<div class="group">
 							<label for="email" class="label">Email Address</label>
-							<input id="email" name="email" type="text" class="input">
+							<input id="email" name="email" type="email" class="input" required>
 						</div>
 						<div class="group">
 							<input type="submit" name="submit" class="button" value="Sign Up">

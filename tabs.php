@@ -16,17 +16,29 @@ $classID=$_GET['class'];
     $studentID = $_SESSION['username'];
 
     $tablename = $classID . "_attendance";
-    $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
-     
-    if($insert){
-      echo "<script>alert('attendance captured successfully');window.location='login.php';</script>";
-    }
 
-    else{
+    $query = "SELECT studentID FROM $tablename WHERE c_date = '$date' && studentID='$studentID'";
+    $result=mysqli_query($conn, $query);
+    
+    if($result->num_rows>0){
+      while($row=$result->fetch_assoc()){
+        echo "<script>alert('Attendance has already been recorded before!');window.location='login.php';</script>";
+      }
+    }
+        else{
+          $insert = mysqli_query($conn,"INSERT INTO $tablename(ID,studentID,c_date) VALUES('NULL','$studentID','$date')");
+
+        }
+
+
+    if($insert){
+      echo "<script>alert('Attendance captured successfully!');window.location='login.php';</script>";
+    }else{
       echo "query failed".mysqli_error($conn);
     }
 
-    }
+   
+}
 }
 
 
@@ -96,16 +108,11 @@ $classID=$_GET['class'];
 
         // To open back the tabs in use instead of home
         <?php
-        
-
-          if (isset($_POST['enroll']) || isset($_POST['pay'])) {
+          if (isset($_POST['pay'])) {
             ?>document.getElementById("defaultOpen3").click();<?php
-          }
-          else if (isset($_POST['update'])) {
-            ?>document.getElementById("defaultOpen2").click();<?php
-          } else if (isset($_SESSION['paid'])) {
+          } else if (isset($_SESSION['paidDone'])) {
+            unset($_SESSION['paidDone']);
             ?>document.getElementById("defaultOpen4").click();<?php
-            unset ($_SESSION["paid"]);
           }
         ?>
 

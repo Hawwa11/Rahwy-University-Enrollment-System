@@ -27,8 +27,35 @@
 <?php
 
     include ("db.php");
+    $studentID = $_SESSION["username"];
 
-    if (isset($_POST['pay'])) {
+    function displaySubjectList() { //function to display subject selected by the student
+        include ("db.php");
+        $studentID = $_SESSION["username"];
+        $select = mysqli_query($conn, "SELECT subject_list FROM enrollment WHERE studentID = '$studentID'");
+        $result = mysqli_fetch_array($select);
+        $subject_list = explode(",", $result['subject_list']); //convert string to array
+        $_SESSION["subject_list"] = $subject_list;
+      
+        for($i = 0; $i < count($subject_list); $i++) { //display subjects selected by the student
+            $sql = "SELECT * FROM class WHERE classID = '$subject_list[$i]'";
+            
+            // put into a function
+            $query = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($query)) {
+                echo "$subject_list[$i] " . $row['c_name'] . ":&nbsp&nbsp&nbspRM 2300<br>";
+            }
+        }
+      }
+      
+    function displayTotalPayment() { //function to display the total payment for the subjects selected by the student
+        $subject_list = $_SESSION["subject_list"];
+        //calculate total payment by counting number of subjects selected
+        $totalPay = 2300 * count($subject_list);
+        echo "Total Payment RM " . $totalPay;
+    }
+
+    if (isset($_POST['pay'])) { //if the pay button is clicked
         $cardName = $_POST['cardName'];
         $cardNum = $_POST['creditcard'];
         $cardNum2 = preg_replace('/\s+/', '', $_POST['creditcard']);
@@ -42,116 +69,72 @@
         $address = $_POST['address'];
         $postalCode = $_POST['postalCode'];
 
-        $studentID = $_SESSION['studentID'];
-        $student_name = $_SESSION['student_name'];
-        $subject_list = $_SESSION['subject_list'];
-        $sem = $_SESSION['sem'];
-
-        if (is_numeric($cardName)) {
+        if (is_numeric($cardName)) { //to validate that the card name must not be numbers only
             $_SESSION["error1"] = "Value must be alphabet characters only";
         }
         
-        if ($_POST['cc_type'] == 'unknown') {
+        if ($_POST['cc_type'] == 'unknown') { //to validate that credit card type must be either visa, mastercard, or american express
             $_SESSION["error2"] = "<br />Please enter a valid credit card number.<br />Credit card value must be 16 digits(Visa/Mastercard) or 15 digits(American Express).";
         }
         
-        if ($cardNumLen < 15) {
+        if ($cardNumLen < 15) { //to validate the credit card number by checking the number of digits entered
             $_SESSION["error3"] = "<br />Please enter a valid credit card number.<br />Credit card value must be 16 digits(Visa/Mastercard) or 15 digits(American Express).";
         }
 
-        if ($expiry_date <= $date_now) {
+        if ($expiry_date <= $date_now) { //to ensure that the date enter must be later than the current month and year
             $_SESSION["error4"] = "The expiry date is invalid";
         }
 
         if(!isset($_SESSION["error1"]) && !isset($_SESSION["error2"]) && !isset($_SESSION["error3"]) && !isset($_SESSION["error4"])){
-            $insert = "INSERT INTO enrollment (studentID, student_name, subject_list, paid, sem) VALUES('$studentID', '$student_name', '$subject_list', 1, '$sem')";
-            $query = mysqli_query($conn, $insert);
+            $update = mysqli_query($conn, "UPDATE enrollment SET paid = 1 WHERE studentID='$studentID'");
 
-            if ($query) {
-                $_SESSION["paid"] = 1;
+            if ($update) {
+                $_SESSION["paidDone"] = 1;
 
-                unset ($_SESSION["studentID"]);
-                unset ($_SESSION["student_name"]);
-                unset ($_SESSION["subject_list"]);
-                unset ($_SESSION["sem"]);
                 echo "<script>alert('Payment Successful, you can now view your timetable.');window.location.href='tabs.php';</script>";
-                //echo "<script>alert('Payment Successful, you can now view your timetable.')";
             } else {
                 echo 'Failed to add new record' . mysqli_error($conn);
                 echo "<script>alert('Failed to add new record' . mysqli_error($conn))";
             }
-            
-
         }
     }
 
-    if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE paid=1"))) {
+    if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '$studentID' AND paid=1"))) { //if the student has already paid for the enrollment
 ?>
-        <body>
-            <div class="signup-form">
-                    <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
-                        <label class="label-title" style="text-transform: none;">Student has already paid for the subjects.</label><br /><br />
-                        <label class="label-title" style="text-transform: none;">Payment Summary:</label>
-                        <hr />
-                        <table border="0" width=100%>
-                            <tr>
-                                <td colspan="2">
-                                    <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
-                                    <?php
-                                        $studentID = $_SESSION["username"];
-                                        $select = mysqli_query($conn, "SELECT subject_list FROM enrollment WHERE studentID = '$studentID'");
-                                        $result = mysqli_fetch_array($select);
-                                        $subject_list = explode(",", $result['subject_list']);
-
-                                        for($i = 0; $i < count($subject_list); $i++) {
-                                            $sql = "SELECT * FROM class WHERE classID = '$subject_list[$i]'";
-                                            
-                                            // put into a function
-                                            $query = mysqli_query($conn, $sql);
-                                            while ($row = mysqli_fetch_array($query)) {
-                                                echo "$subject_list[$i] " . $row['c_name'] . ":&nbsp&nbsp&nbsp4000 RM <br>";
-                                            }
-                                        }
-                                    ?>
-                                    </div>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td colspan="2">
-                                    <div style="padding: 20px 40px; font-weight: bold; float: right;  color: rgba(59, 76, 117, 0.9);">
-                                    <?php    
-                                        $totalPay = 4000 * count($subject_list);
-                                        echo "Total Payment RM " . $totalPay;
-                                        ?>
-                                    </div>
-                                </td>
-                            </tr> 
-                        </table>
-                    </div>
-            </div>
-        </body>
-<?php
-    } else if(!isset($_SESSION["studentID"])){
-?>
-
-    <body>
+    <body style="padding-top: 25px;">
         <div class="signup-form">
-                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
-                    <label class="label-title" style="text-transform: none;">No payments due yet! Student has not enrolled in any subjects or has already paid this semester tuition fee.</label><br><br>
-                    <label class="label-title" style="text-transform: none;">**Please select subjects to enroll in the Enrollment Form or Contact Us for any enquires or isues regarding payment.</label>
-                </div>
+            <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
+                <label class="label-title" style="text-transform: none;">Student has already paid for the subjects.</label><br /><br />
+                <label class="label-title" style="text-transform: none;">Payment Summary:</label>
+                <hr />
+                <table border="0" width=100%>
+                    <tr>
+                        <td colspan="2">
+                            <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
+                            <?php
+                                displaySubjectList(); //call function to display subject list
+                            ?>
+                            </div>
+                        </td>
+                    </tr> 
+
+                    <tr>
+                        <td colspan="2">
+                            <div style="padding: 20px 40px; font-weight: bold; float: right;  color: rgba(59, 76, 117, 0.9);">
+                            <?php    
+                                displayTotalPayment(); //call function to display total payment
+                            ?>
+                            </div>
+                        </td>
+                    </tr> 
+                </table>
+            </div>
         </div>
     </body>
 <?php
-    } else if(isset($_SESSION["studentID"])) {
-        $studentID = $_SESSION['studentID'];
-        $student_name = $_SESSION['student_name'];
-        $subject_list = $_SESSION['subject_list'];
-        $sem = $_SESSION['sem'];
+    } else if(mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '$studentID' AND paid=0"))){ //if the user has already enrolled but have not paid yet
 ?>
-
-    <body>
+<body style="padding-top: 25px;">
         <div>
             <form class="signup-form" action="" method="POST">
                 <div class="form-header">
@@ -179,7 +162,7 @@
                             <div style="padding: 10px 40px;">
                                 <input type="text" placeholder="" name="cardName" id="cardName" value="<?php echo isset($_POST['cardName']) ? $_POST['cardName'] : '' ?>" onkeyup="toUpperCase()" required /><br />
                                 <?php
-                                    if(isset($_SESSION["error1"])){
+                                    if(isset($_SESSION["error1"])){ //error message will be displayed if it exists, same is applied with the error sessions below
                                         $error = $_SESSION["error1"];
                                         echo "<span class='errorText'>$error</span>";
                                     }
@@ -301,15 +284,7 @@
                         <td colspan="2">
                             <div style="padding: 20px 40px; font-weight: bold;  color: rgba(59, 76, 117, 0.9);">
                             <?php
-                                for($i = 0; $i < count($subject_list); $i++) {
-                                    $sql = "SELECT * FROM class WHERE classID = '$subject_list[$i]'";
-                                    
-                                    // put into a function
-                                    $query = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($query)) {
-                                        echo "$subject_list[$i] " . $row['c_name'] . ":&nbsp&nbsp&nbsp4000 RM <br>";
-                                    }
-                                }
+                                displaySubjectList(); //call function to display subject list
                             ?>
                             </div>
                         </td>
@@ -319,9 +294,8 @@
                         <td colspan="2">
                             <div style="padding: 20px 40px; font-weight: bold; float: right;  color: rgba(59, 76, 117, 0.9);">
                             <?php    
-                                $totalPay = 4000 * count($subject_list);
-                                echo "Total Payment RM " . $totalPay;
-                                ?>
+                                displayTotalPayment(); //call function to display total payment
+                            ?>
                             </div>
                         </td>
                     </tr> 
@@ -333,7 +307,7 @@
                             x.value = x.value.toUpperCase();
                         }
 
-                        function ccCheck() {
+                        function ccCheck() { //highlight the credit card type with the one user entered
                             if (document.querySelector('.fa-cc-visa').classList.contains('active')) {
                                 document.getElementById("cc_type").value = 'visa';
                             } else if (document.querySelector('.fa-cc-mastercard').classList.contains('active')) {
@@ -347,7 +321,8 @@
                     </script>
                     
                     <?php
-                        unset ($_SESSION["error1"]);
+                        //reset the sessions for the errors by resetting it before being rechecked again
+                        unset ($_SESSION["error1"]); 
                         unset ($_SESSION["error2"]);
                         unset ($_SESSION["error3"]);
                         unset ($_SESSION["error4"]);
@@ -366,6 +341,19 @@
         </div>
     </body>
 </html>
+    
+<?php
+    } else { //if the user has not enrolled for any subjects yet
+?>
+    <body style="padding-top: 25px;">
+        <div class="signup-form">
+                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
+                    <label class="label-title" style="text-transform: none;">No payments due yet! Student has not enrolled in any subjects or has already paid this semester tuition fee.</label><br><br>
+                    <label class="label-title" style="text-transform: none;">**Please select subjects to enroll in the Enrollment Form or Contact Us for any enquires or isues regarding payment.</label>
+                </div>
+        </div>
+    </body>
+    
 <?php
     } 
 ?>
