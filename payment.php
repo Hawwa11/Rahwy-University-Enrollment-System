@@ -43,7 +43,7 @@
             // put into a function
             $query = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_array($query)) {
-                echo "$subject_list[$i] " . $row['c_name'] . ":&nbsp&nbsp&nbsp4000 RM <br>";
+                echo "$subject_list[$i] " . $row['c_name'] . ":&nbsp&nbsp&nbspRM 2300<br>";
             }
         }
       }
@@ -51,7 +51,7 @@
       function displayTotalPayment() { //function to display the total payment for the subjects selected by the student
         $subject_list = $_SESSION["subject_list"];
         //calculate total payment by counting number of subjects selected
-        $totalPay = 4000 * count($subject_list);
+        $totalPay = 2300 * count($subject_list);
         echo "Total Payment RM " . $totalPay;
       }
 
