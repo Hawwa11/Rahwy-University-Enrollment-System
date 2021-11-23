@@ -3,14 +3,17 @@
     include ("db.php");
     $studentID = $_SESSION["username"];
 
-    $email = "SELECT email FROM student WHERE studentID='$studentID'";
-    $result1 = mysqli_query($conn, $email);
+    $profile = "SELECT * FROM student WHERE studentID='$studentID'";
+    $result1 = mysqli_query($conn, $profile);
     $row = mysqli_fetch_assoc($result1);
+    $firstName = $row['fname'];
+    $lastName = $row['lname'];
+    $dob = $row['dob'];
+    $passport = $row['passport_no'];
+    $nationality = $row['nationality'];
+    $program = $row['programID'];
+    $session = $row['start_sem'];
     $currentEmail = $row['email']; //get the current email for the student
-
-    $pnum = "SELECT phone FROM student WHERE studentID='$studentID'";
-    $result2 = mysqli_query($conn, $pnum);
-    $row = mysqli_fetch_assoc($result2);
     $currentPhone = $row['phone']; //get the current phone number for the student
 
     // If change password button is clicked
@@ -99,6 +102,59 @@
                     <tr>
                         <td colspan="4">
                             <div style="font-weight: bold;">
+                                <h2>About Me</h2>
+                            </div>
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">First Name:</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $firstName ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Last Name:</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $lastName ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Email</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $currentEmail ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Date of Birth</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $dob ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Phone</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $currentPhone ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Passport No.</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $passport ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Nationality</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $nationality ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Program ID</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $program ?></label></div></td>
+                    </tr>
+                    <tr>
+                        <td width=50%><div style="padding-top: 10px;"><label class="label-title">Session</label></div></td>
+                        <td><div><label style="float: left; font-weight: normal;"><?php echo $session ?></label></div></td>
+                    </tr>
+                    <!-- First Name
+                Last Name
+            Email
+        Date of Birth
+    Phone
+Passport No.
+Nationality
+Program ID
+Session -->
+                    <tr>
+                        <td colspan="4">
+                            <div style="font-weight: bold;">
                                 <h2>Change Password</h2>
                             </div>
                             <hr />
@@ -109,24 +165,24 @@
                         <td><div><label class="label-title">Old password</label></div></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Enter your old password" name="passwordOld"></div></td>
+                        <td colspan="4"><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Enter your old password" name="passwordOld"></div></td>
                     </tr>
 
                     <tr>
                         <td><div style="padding-top: 10px;"><label class="label-title">New password</label></div></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Enter your new password" name="passwordNew"></div></td>
+                        <td colspan="4"><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Enter your new password" name="passwordNew"></div></td>
                     </tr>
                     <tr>
                         <td><div style="padding-top: 10px;"><label class="label-title">Confirm New Password</label></div></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Please re-enter to confirm your new password" name="passwordConfirm"></div></td>
+                        <td colspan="4"><div style="padding-top: 5px;"><input type="password" size="50" placeholder="Please re-enter to confirm your new password" name="passwordConfirm"></div></td>
                     </tr>
 
                     <tr>
-                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="cp" class="btn" value="Change Password"></div></td>
+                        <td colspan="4"><div style="float: right; padding-top: 5px;"><input type="submit" name="cp" class="btn" value="Change Password"></div></td>
                     </tr>
 
                     <tr>
@@ -142,10 +198,10 @@
                         <td><div><label class="label-title">Enter your updated Phone Number</label></div></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 5px;"><input id="pnum" name="pnum" size="50" type="tel" placeholder="<?php echo 'Current Phone Number: ' . $currentPhone ?>" class="input"></div></td>
+                        <td colspan="4"><div style="padding-top: 5px;"><input id="pnum" name="pnum" size="50" type="tel" placeholder="<?php echo 'Current Phone Number: ' . $currentPhone ?>" class="input"></div></td>
                     </tr>
                     <tr>
-                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="pn" class="btn" value="Change Phone Number"></div></td>
+                        <td colspan="4"><div style="float: right; padding-top: 5px;"><input type="submit" name="pn" class="btn" value="Change Phone Number"></div></td>
                     </tr>
 
                     <tr>
@@ -161,10 +217,10 @@
                         <td><div><label class="label-title">Enter your updated Email</label></div></td>
                     </tr>
                     <tr>
-                        <td><div style="padding-top: 5px;"><input id="email" name="email" size="50" placeholder="<?php echo 'Current Email: ' . $currentEmail ?>" type="email" class="input"></div></td>
+                        <td colspan="4"><div style="padding-top: 5px;"><input id="email" name="email" size="50" placeholder="<?php echo 'Current Email: ' . $currentEmail ?>" type="email" class="input"></div></td>
                     </tr>
                     <tr>
-                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="em" class="btn" value="Change Email"></div></td>
+                        <td colspan="4"><div style="float: right; padding-top: 5px;"><input type="submit" name="em" class="btn" value="Change Email"></div></td>
                     </tr>
                 </table>
             </div>
