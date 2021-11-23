@@ -179,7 +179,9 @@
         }
     ?>
     <div class="container">
+      <h2>
         <?php echo 'Welcome ' . $name; echo "</br></br>";?>
+      </h2>
     <?php
       
     if(isset($_POST["btn2"])){
