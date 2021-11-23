@@ -48,12 +48,12 @@
         }
       }
       
-      function displayTotalPayment() { //function to display the total payment for the subjects selected by the student
+    function displayTotalPayment() { //function to display the total payment for the subjects selected by the student
         $subject_list = $_SESSION["subject_list"];
         //calculate total payment by counting number of subjects selected
         $totalPay = 2300 * count($subject_list);
         echo "Total Payment RM " . $totalPay;
-      }
+    }
 
     if (isset($_POST['pay'])) { //if the pay button is clicked
         $cardName = $_POST['cardName'];
