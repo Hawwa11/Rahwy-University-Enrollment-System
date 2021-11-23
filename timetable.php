@@ -3,6 +3,7 @@ include("db.php");
 $studentID = $_SESSION['username'];
 
 $cID = getClassID($studentID,$conn);
+if(!empty($cID)){
 $subject_list = createLTimetable($studentID,$conn,$cID);
 $lecturerID = getLecturerID($studentID,$conn,$cID);
 
@@ -103,15 +104,34 @@ $lecturerID = getLecturerID($studentID,$conn,$cID);
     <div class="form-footer2"></div>
   
   </form>
+
   <div class="container">
         <div id="calendar"></div>
     </div>
  
     </body>
 </html>
-
 <?php
+}else{
+  ?>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="form.css">
+  </head>
+  <body>
+      
+  <div class="signup-form">
+                <div class="form-body" style="padding-top: 25px; padding-bottom: 25px;">
+                    <label class="label-title" style="text-transform: none;"><br>Student not enrolled in any subject yet. Timetable will only be generated after enrollment is complete!.<br><br>****Please enroll from the Enrollment page or Contact Us for any enquires or isues regarding the timetable.</label> <br><br>
+                </div>
+        </div> 
+       
 
+  </body>
+</html>
+<?php
+}
   function getClassID($studentID,$conn){//get enrolled class ID
     $query = mysqli_query($conn, "SELECT * FROM enrollment WHERE studentID = '{$studentID}'");
     if (mysqli_num_rows($query) > 0) {
