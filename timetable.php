@@ -49,6 +49,9 @@ $lecturerID = getLecturerID($studentID,$conn,$cID);
                   });
                 }
             });
+            $("#defaultOpen4").on("click", function() {
+              $( ".fc-today-button" ).trigger( "click" );
+            });
         });
     </script>
      <body>
@@ -100,7 +103,7 @@ $lecturerID = getLecturerID($studentID,$conn,$cID);
     <div class="form-footer2"></div>
   
   </form>
-  <div class="container" style="width=100%;">
+  <div class="container">
         <div id="calendar"></div>
     </div>
  
