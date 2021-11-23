@@ -129,7 +129,7 @@ for (i = 0; i < close.length; i++) {
 			//Sending Email to student with their new student ID
 		$subject = "Your Student ID";
 		$txt = "Thank you for registering. Your student ID is " . $IDGen;
-		mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
+		mail($email, $subject, $txt, 'From: rahwyuniversity@gmail.com');//The email function
 		$_SESSION["username"] = $IDGen;
 
 			echo '
@@ -141,23 +141,7 @@ for (i = 0; i < close.length; i++) {
 		  ';
 			
 		}
-		//Sending Email to student with their new student ID
-		// $subject = "Your Student ID";
-		// $txt = "Thank you for registering. Your student ID is " . $IDGen;
-		// mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
-		// if (mysqli_stmt_execute($stmt)) {
-		// 	$_SESSION["username"] = $IDGen;
 
-		// 	echo '
-			
-		// 	<script>
-		// 	window.location.href="tabs.php";
-		// 	</script>
-			
-		//   ';
-		// } else {
-		// 	echo 'Failed to add new record' . mysqli_error($conn);
-		// }
 	}
 }
 

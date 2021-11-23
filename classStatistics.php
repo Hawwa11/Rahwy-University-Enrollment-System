@@ -125,7 +125,7 @@
                                 //Email contents
                                 $txt = "Warning! Your attendance rate is less than 80% for the subject " . $ClassID . " Kindly, contact you HOP to handle this issue";
                                 $subject = "Warning Letter";
-                                //mail($studentEmail[0], $subject, $txt, 'From: rahwyco@gmail.com');//The email function
+                                mail($studentEmail[0], $subject, $txt, 'From: rahwyuniversity@gmail.com');//The email function
                             }
                         }
                         echo '<td>' . $attendanceRate.'</td> 
