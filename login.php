@@ -44,7 +44,23 @@ if (isset($_POST['submit'])) {
 	$startPassprtCheck = mysqli_query($conn, $passportCheck);
 
 	if ($_POST['pass'] != $_POST['Rpass']) {
-		echo "<script>alert('Password and confirm password must be the same!')</script>";
+		echo '
+			<div class="alert">
+			<span class="closebtn">&times;</span>  
+			<strong> Password and confirm password do not match ! </strong> please enter them again.
+		  </div>
+		  <script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>';
 	} else if (mysqli_num_rows($startUCheck) > 0) {
 		echo '<div class="alert">
 			<span class="closebtn">&times;</span>  
@@ -102,14 +118,19 @@ for (i = 0; i < close.length; i++) {
 </script>';
 	} else {
 
+		$Insertquery="INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES(?,?,?,?,?,?,?,?,?,?,'AUG21')";
+		$stmt= mysqli_stmt_init($conn);
+		if(!mysqli_stmt_prepare($stmt,$Insertquery)){
+			echo "SQL ERROR";
+		}else{
+			mysqli_stmt_bind_param($stmt,"ssssssssss", $IDGen, $email, $pass, $pNum, $DOB, $passport, $country, $fname, $lname, $programID);
+			mysqli_stmt_execute($stmt);
 
-		$insert = mysqli_query($conn, "INSERT INTO student (studentID, email, password_hash, phone, dob, passport_no, nationality, fname, lname, programID,start_sem) VALUES('$ID','$email','$pass','$pNum','$DOB','$passport','$country','$fname','$lname','$programID','AUG21')");
-		//Sending Email to student with their new student ID
+			//Sending Email to student with their new student ID
 		$subject = "Your Student ID";
 		$txt = "Thank you for registering. Your student ID is " . $IDGen;
 		mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
-		if ($insert) {
-			$_SESSION["username"] = $IDGen;
+		$_SESSION["username"] = $IDGen;
 
 			echo '
 			
@@ -118,9 +139,25 @@ for (i = 0; i < close.length; i++) {
 			</script>
 			
 		  ';
-		} else {
-			echo 'Failed to add new record' . mysqli_error($conn);
+			
 		}
+		//Sending Email to student with their new student ID
+		// $subject = "Your Student ID";
+		// $txt = "Thank you for registering. Your student ID is " . $IDGen;
+		// mail($email, $subject, $txt, 'From: rahwyco@gmail.com');//The email function
+		// if (mysqli_stmt_execute($stmt)) {
+		// 	$_SESSION["username"] = $IDGen;
+
+		// 	echo '
+			
+		// 	<script>
+		// 	window.location.href="tabs.php";
+		// 	</script>
+			
+		//   ';
+		// } else {
+		// 	echo 'Failed to add new record' . mysqli_error($conn);
+		// }
 	}
 }
 
@@ -609,7 +646,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 						</div>
 						<div class="group">
 							<label for="email" class="label">Email Address</label>
-							<input id="email" name="email" type="text" class="input" required>
+							<input id="email" name="email" type="email" class="input" required>
 						</div>
 						<div class="group">
 							<input type="submit" name="submit" class="button" value="Sign Up">
