@@ -51,8 +51,21 @@
 
     $tablename = $ClassID . "_attendance";
     $studentAttendance;
-    echo "Class ID: " . $ClassID . " Class Date: " . $ClassDate;
     ?>
+    <div class="container">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="col">Class ID</th>
+                    <td><?php echo $ClassID; ?></td>
+                </tr>
+                <tr>
+                    <th scope="col">Class Date</th>
+                    <td><?php echo $ClassDate; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!--Generating attendance list-->
     <form action="" method="POST">
@@ -63,7 +76,7 @@
                         <th scope="col">Student ID</th>
                         <th scope="col">Student Name</th>
                         <th scope="col">Attendance</th>
-                        <th scope="col">Current Attendance Rate</th>
+                        <th scope="col">Current Attendance Rate %</th>
                     </tr>
                 </thead>                       
                 <?php
@@ -74,8 +87,10 @@
                                 
                 echo '<tbody>
                     <tr>
-                        <td>'.$row['studentID'].'</td> 
+                        <td>'.$row['studentID'].'</td>
+
                         <td>'.$row['student_name'].'</td>';
+
                         //Displaying if student is absent or present                        
                         $attendanceQuery = "SELECT studentID FROM $tablename WHERE c_date = '{$ClassDate}' AND studentID = '{$row['studentID']}'";
                         $attendanceResult=mysqli_query($conn, $attendanceQuery);
@@ -86,8 +101,34 @@
                         else {
                             $studentAttendance = 'A';
                         }
-                        echo '<td>'.$studentAttendance.'</td> 
-                        <td> </td> 
+                        echo '<td>'.$studentAttendance.'</td>';
+
+                        //Getting attendance rate of each student
+                        $attendanceRate = "No classes conducted yet";
+                        $totalClassesQuery = "SELECT COUNT(DISTINCT c_date) FROM $tablename";//Getting total number of classes conducted
+                        $totalClassesResult=mysqli_query($conn, $totalClassesQuery);
+                        $totalClasses = mysqli_fetch_array($totalClassesResult);
+                        //echo "Total: ".$totalClasses[0];
+                        if ($totalClasses[0]!=0){
+                            //Getting total classes attended by each student
+                            $studentPresentCountQuery = "SELECT COUNT(studentID) FROM $tablename WHERE studentID='{$row['studentID']}'";
+                            $studentPresentCountResult=mysqli_query($conn, $studentPresentCountQuery);
+                            $studentPresentCount = mysqli_fetch_array($studentPresentCountResult);
+                            //echo "Total: ".$studentPresentCount[0];
+                            $attendanceRate = (int)(($studentPresentCount[0]/$totalClasses[0])*100);//We use [0] because the result is always in index 0 from the query
+                            
+                            //Sending email if student has rate <80%
+                            $studentEmailQuery = "SELECT email FROM student WHERE studentID = '{$row['studentID']}'";
+                            $studentEmailResult=mysqli_query($conn, $studentEmailQuery);
+                            $studentEmail = mysqli_fetch_row($studentEmailResult);
+                            if ($attendanceRate < 80){
+                                //Email contents
+                                $txt = "Warning! Your attendance rate is less than 80% for the subject " . $ClassID . " Kindly, contact you HOP to handle this issue";
+                                $subject = "Warning Letter";
+                                //mail($studentEmail[0], $subject, $txt, 'From: rahwyco@gmail.com');//The email function
+                            }
+                        }
+                        echo '<td>' . $attendanceRate.'</td> 
                     </tr>';
                     }
                 }                       
