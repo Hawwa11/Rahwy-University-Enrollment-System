@@ -167,7 +167,7 @@ if (isset($_POST['submit2'])) {
 	$userID = mysqli_real_escape_string($conn, $_POST['userID']);
 	$password = mysqli_real_escape_string($conn, $_POST['Loginpass']);
 
-	if(isset($_POST["rememberme"])) {
+	if(isset($_POST["rememberme"])) { //set cookie if checkbox is checked
 		setcookie ("member_ID", $userID, time()+ (86400));
 		setcookie ("member_Password", $password, time()+ (86400));
 	}else { //delete cookie if checkbox is not checked
@@ -223,24 +223,6 @@ if (isset($_POST['submit2'])) {
 
 	if (mysqli_num_rows($startLoginCheck) > 0) {
 		$_SESSION["username"] = $_POST['userID'];
-// 		if(!empty($_POST["rememberme"])) {
-// 			setcookie ("member_ID",$_POST["userID"],time()+ (86400));
-// 			setcookie ("member_Password",$_POST["Loginpass"],time()+ (86400));
-// 		}else { //delete cookie if checkbox is not checked
-// 			if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
-// 				$CookieID = $_COOKIE["member_ID"];
-// 				$Cookiepassword = $_COOKIE["member_Password"];
-// 				setcookie("member_ID", $CookieID, time() - 1);
-// 				setcookie("member_Password", $Cookiepassword, time() - 1);
-// 			}
-// 	} 
-// 	echo '
-// 	<script>
-// 	window.location.href="tabs.php?ck=1";
-// 	</script>
-//   ';
-// }else {
-
     
     if (!empty($_GET)){
      
@@ -287,18 +269,6 @@ for (i = 0; i < close.length; i++) {
 </script>';
 	}
 }
-}
-
-
-if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
-	$CookieID = $_COOKIE["member_ID"];
-	$Cookiepassword = $_COOKIE["member_Password"];
-	echo "<script>
-		document.getElementById('userID').value = '$CookieID';
-		document.getElementById('Loginpass').value = '$Cookiepassword';
-		document.getElementById('rememberme').checked = true;
-	</script>";
-	//it is not showing in the fields idk why
 }
 ?>
 
@@ -349,7 +319,7 @@ if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
 				</div>
 
 				<?php
-					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {
+					if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) { //set cookie to the input fields if cookies exist
 						$CookieID = $_COOKIE["member_ID"];
 						$Cookiepassword = $_COOKIE["member_Password"];
 						echo "<script>

@@ -6,12 +6,12 @@
     $email = "SELECT email FROM student WHERE studentID='$studentID'";
     $result1 = mysqli_query($conn, $email);
     $row = mysqli_fetch_assoc($result1);
-    $currentEmail = $row['email'];
+    $currentEmail = $row['email']; //get the current email for the student
 
     $pnum = "SELECT phone FROM student WHERE studentID='$studentID'";
     $result2 = mysqli_query($conn, $pnum);
     $row = mysqli_fetch_assoc($result2);
-    $currentPhone = $row['phone'];
+    $currentPhone = $row['phone']; //get the current phone number for the student
 
     // If change password button is clicked
     if (isset($_POST['cp'])) {
@@ -23,47 +23,52 @@
         $row = mysqli_fetch_assoc($result);
         $password = $row['password_hash'];
 
-        if($passwordNew == "" || $passwordConfirm == ""){
+        if($passwordNew == "" || $passwordConfirm == ""){ //if the fields for the new and confirm new password are empty
             echo "<script>alert('Please enter or confirm your new password.');</script>";
         } else if ($passwordOld == $password && $passwordNew != "" && $passwordConfirm != "" && $passwordNew == $passwordConfirm) {
             // Update user with the hashed new password
             $sql = "UPDATE student SET password_hash = '$passwordNew' WHERE studentID='$studentID'";
             mysqli_query($conn, $sql);
 
+            if(isset($_COOKIE['member_ID']) && isset($_COOKIE["member_Password"])) {//delete cookie if it exists
+                $CookieID = $_COOKIE["member_ID"];
+                $Cookiepassword = $_COOKIE["member_Password"];
+                setcookie("member_ID", $CookieID, time() - 1);
+                setcookie("member_Password", $Cookiepassword, time() - 1);
+            }
+
             echo "<script>alert('Password successfully changed.');</script>";
         } else if ($passwordNew != $passwordConfirm) {
             echo "<script>alert('The confirmation password does not match.');</script>";
-        } else {
+        } else { //if the user entered incorrect password for the old password
             echo "<script>alert('Operation cancelled. Incorrect password entered.');</script>";
         }
-    } else if (isset($_POST['pn'])) {
+    } else if (isset($_POST['pn'])) { //if update phone number button is clicked
         $phoneNum = $_POST['pnum'];
         $pCheck = "SELECT * FROM student WHERE phone = '$phoneNum'";
-        $pCheck2 = "SELECT * FROM student WHERE phone = '$phoneNum' AND studentID='$studentID'";
         $startPassCheck = mysqli_query($conn, $pCheck);
-        if($phoneNum == ""){
+        if($phoneNum == ""){ //if the phone number field is empty
             echo "<script>alert('Please enter your updated phone number.');</script>";
-        } else if (strlen((string)$phoneNum) < 7) {
+        } else if (strlen((string)$phoneNum) < 7) { //if the student entered an invalid phone number
             echo "<script>alert('Please enter a valid phone number.');</script>";
-        } else if ($phoneNum == $pCheck2) {
+        } else if ($phoneNum == $currentPhone) { //if the phone number entered is the same as current phone number
             echo "<script>alert('Error changing phone number. Phone number entered same as current phone number.');</script>";
-        } else if (mysqli_num_rows($startPassCheck) > 0) {
+        } else if (mysqli_num_rows($startPassCheck) > 0) { //if the phone number entered exists in the system that is from another student
             echo "<script>alert('Error changing phone number. Phone number entered is associated with another account.');</script>";
         } else {
             $sql = "UPDATE student SET phone = '$phoneNum' WHERE studentID='$studentID'";
             mysqli_query($conn, $sql);
             echo "<script>alert('Phone Number successfully updated.');</script>";
         }
-    } else if (isset($_POST['em'])) {
+    } else if (isset($_POST['em'])) { //if update email button is clicked
         $email = $_POST['email'];
         $uCheck = "SELECT * FROM student WHERE email = '$email'";
-        $uCheck2 = "SELECT * FROM student WHERE email = '$email' AND studentID='$studentID'";
         $startUCheck = mysqli_query($conn, $uCheck);
-        if($email == ""){
+        if($email == ""){ //if the email field is empty
             echo "<script>alert('Please enter your updated email.');</script>";
-        } else if ($email == $uCheck2) {
+        } else if ($email == $currentEmail) { //if the email entered is the same as current email
             echo "<script>alert('Error changing email. Email entered same as current email.');</script>";
-        } else if (mysqli_num_rows($startUCheck) > 0) {
+        } else if (mysqli_num_rows($startUCheck) > 0) { //if the email entered exists in the system that is from another student
             echo "<script>alert('Error changing email. Email entered is associated with another account.');</script>";
         } else {
             $sql = "UPDATE student SET email = '$email' WHERE studentID='$studentID'";
@@ -121,7 +126,7 @@
                     </tr>
 
                     <tr>
-                        <td><div style="float: right;"><input type="submit" name="cp" class="btn" value="Change Password"></div></td>
+                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="cp" class="btn" value="Change Password"></div></td>
                     </tr>
 
                     <tr>
@@ -140,7 +145,7 @@
                         <td><div style="padding-top: 5px;"><input id="pnum" name="pnum" size="50" type="tel" placeholder="<?php echo 'Current Phone Number: ' . $currentPhone ?>" class="input"></div></td>
                     </tr>
                     <tr>
-                        <td><div style="float: right;"><input type="submit" name="pn" class="btn" value="Change Phone Number"></div></td>
+                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="pn" class="btn" value="Change Phone Number"></div></td>
                     </tr>
 
                     <tr>
@@ -159,7 +164,7 @@
                         <td><div style="padding-top: 5px;"><input id="email" name="email" size="50" placeholder="<?php echo 'Current Email: ' . $currentEmail ?>" type="email" class="input"></div></td>
                     </tr>
                     <tr>
-                        <td><div style="float: right;"><input type="submit" name="em" class="btn" value="Change Email"></div></td>
+                        <td><div style="float: right; padding-top: 5px;"><input type="submit" name="em" class="btn" value="Change Email"></div></td>
                     </tr>
                 </table>
             </div>
