@@ -87,10 +87,10 @@
     
 
     
-    $codeContents = "https://831d-2001-f40-904-a76d-3c68-1c49-e67e-8f47.ngrok.io/rola/Rahwy-University-Enrollment-System/tabs.php?link=".$showDate."&class=".$classID."";
+    $codeContents = "https://0ddf-2402-1980-2b3-6e56-bdf4-f774-c4b8-e10c.ngrok.io/Rahwy-University-Enrollment-System/tabs.php?link=".$showDate."&class=".$classID."";
     
     // we need to generate filename somehow, 
-    // with md5 or with database ID used to obtains $codeContents...
+    // with md5 or with database ID used to obtains $codeContents...s
     $fileName = '005_file_'.md5($codeContents).'.png';
     
     $pngAbsoluteFilePath = $tempDir.$fileName;
