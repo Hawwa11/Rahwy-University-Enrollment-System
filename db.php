@@ -261,4 +261,18 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error creating lecturer timetable table: " . $conn->error;
 }
+
+// Create the lecturer timetable if it doesnt exist
+$sql = "CREATE TABLE IF NOT EXISTS studenttimetable (
+  id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, -- Set enrollmentID as the primary key
+  class VARCHAR(40) NOT NULL,
+  start_event DATETIME NOT NULL,
+  end_event DATETIME NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+     // Do nothing if table created successfully
+} else {
+  echo "Error creating lecturer timetable table: " . $conn->error;
+}
 ?>
