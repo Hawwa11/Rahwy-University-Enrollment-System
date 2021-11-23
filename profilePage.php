@@ -143,15 +143,7 @@
                         <td width=50%><div style="padding-top: 10px;"><label class="label-title">Session</label></div></td>
                         <td><div><label style="float: left; font-weight: normal;"><?php echo $session ?></label></div></td>
                     </tr>
-                    <!-- First Name
-                Last Name
-            Email
-        Date of Birth
-    Phone
-Passport No.
-Nationality
-Program ID
-Session -->
+                    
                     <tr>
                         <td colspan="4">
                             <div style="font-weight: bold;">
