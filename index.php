@@ -4,7 +4,6 @@
 
         $showDate=$_SESSION['date'];
         $classID=$_SESSION['classID'];
-        echo $showDate;
 
                 if(!isset($_SESSION))
                 { 
@@ -96,20 +95,24 @@
     $pngAbsoluteFilePath = $tempDir.$fileName;
     $urlRelativeFilePath =$tempDir.$fileName;
 
-    echo "changes reflected";
     
     // generating
     if (!file_exists($pngAbsoluteFilePath)) {
         QRcode::png($codeContents, $pngAbsoluteFilePath);
-        echo 'File generated!';
-        echo '<center>Server PNG File: '.$pngAbsoluteFilePath;
+    
+    
+        echo "<center><h3>Scan this QR Code to record your attendance</h3></center>";
+        echo "<br>";
+        echo '<center>'.$pngAbsoluteFilePath;
         echo '</center>';
       
     } else {
 
-        echo '<center>Server PNG File: '.$pngAbsoluteFilePath;
+       
+        echo "<center><h3>Scan this QR Code to record your attendance</h3></center>";
+        echo "<br>";
+        echo '<center>'.$pngAbsoluteFilePath;
         echo '</center>';
-     
       
     }
     

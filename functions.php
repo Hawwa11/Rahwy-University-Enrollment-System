@@ -9,7 +9,7 @@ function displayQrImage(){
 
 
   global $urlRelativeFilePath;
-  echo '<b><center>Todays Date: '.$showDate.'<b></center>';
+  echo '<b><center>Class Date: '.$showDate.'<b></center>';
   echo '<center><img src="'.$urlRelativeFilePath.'" /></center>';
 
 }
