@@ -109,7 +109,7 @@
                         $totalClassesResult=mysqli_query($conn, $totalClassesQuery);
                         $totalClasses = mysqli_fetch_array($totalClassesResult);
                         //echo "Total: ".$totalClasses[0];
-                        if ($totalClasses[0]!=0){
+                        if ($totalClasses[0]==10){
                             //Getting total classes attended by each student
                             $studentPresentCountQuery = "SELECT COUNT(studentID) FROM $tablename WHERE studentID='{$row['studentID']}'";
                             $studentPresentCountResult=mysqli_query($conn, $studentPresentCountQuery);
